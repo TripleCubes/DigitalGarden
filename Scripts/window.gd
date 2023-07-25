@@ -8,7 +8,13 @@ const WINDOW_MIN_W: float = 60
 const WINDOW_MIN_H: float = 60
 const WINDOW_BAR_H: float = 10
 
+const SMOOTH_SCALE_DURATION: float = 300
+const SMOOTH_MOVE_DURATION: float = 300
+
 var window_scale: float = 2
+var previous_window_scale: float = window_scale
+var destination_window_scale: float = window_scale
+var start_smooth_scale_at: float = 0
 
 var left_border_pressed: bool = false
 var top_border_pressed: bool = false
@@ -81,7 +87,9 @@ func window_ordered_update(_delta: float) -> void:
 	
 	if bar_pressed:
 		self.position.x = previous_window_x + mouse_pos.x - previous_mouse_pos.x
-		self.position.y = previous_window_y + mouse_pos.y - previous_mouse_pos.y		
+		self.position.y = previous_window_y + mouse_pos.y - previous_mouse_pos.y
+		
+	smooth_scale_process()
 		
 	queue_redraw()
 		
@@ -147,3 +155,17 @@ func border_press_check() -> void:
 				
 func place_window_on_top() -> void:
 	window_list.move_child(self, window_list.get_child_count() - 1)
+	
+func smooth_scale(scale: float) -> void:
+	previous_window_scale = window_scale
+	destination_window_scale = scale
+	start_smooth_scale_at = Time.get_ticks_msec()
+	
+func smooth_scale_process() -> void:
+	var at: float = (Time.get_ticks_msec() - start_smooth_scale_at) / SMOOTH_SCALE_DURATION
+	
+	if at > 1:
+		window_scale = destination_window_scale
+		return
+		
+	window_scale = lerp(previous_window_scale, destination_window_scale, GlobalFunctions.ease_in_out(at))

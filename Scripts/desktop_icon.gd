@@ -3,6 +3,9 @@ extends Node2D
 @onready var desktop_icon_list = get_node("/root/Main/Desktop")
 @export var texture: Texture
 
+const SMOOTH_SCALE_DURATION: float = 300
+const SMOOTH_MOVE_DURATION: float = 300
+
 const ICON_WIDTH: float = 40
 const DOUBLE_CLICK_TIME = 600
 
@@ -11,6 +14,9 @@ var focused: bool = false
 var icon_function: Callable
 
 var icon_scale: float = 1
+var previous_icon_scale: float = icon_scale
+var destination_icon_scale: float = icon_scale
+var start_smooth_scale_at: float = 0
 
 var pressed: bool = false
 var just_pressed: bool = false
@@ -55,6 +61,8 @@ func window_ordered_update(_delta: float) -> void:
 			icon_function.call()
 		else:
 			print("icon_function is null")
+			
+	smooth_scale_process()
 		
 	queue_redraw()
 	
@@ -83,3 +91,17 @@ func icon_press_check() -> void:
 	
 func place_icon_on_top() -> void:
 	desktop_icon_list.move_child(self, desktop_icon_list.get_child_count() - 1)
+	
+func smooth_scale(scale: float) -> void:
+	previous_icon_scale = icon_scale
+	destination_icon_scale = scale
+	start_smooth_scale_at = Time.get_ticks_msec()
+	
+func smooth_scale_process() -> void:
+	var at: float = (Time.get_ticks_msec() - start_smooth_scale_at) / SMOOTH_SCALE_DURATION
+		
+	if at > 1:
+		icon_scale = destination_icon_scale
+		return
+		
+	icon_scale = lerp(previous_icon_scale, destination_icon_scale, GlobalFunctions.ease_in_out(at))
