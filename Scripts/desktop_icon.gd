@@ -6,7 +6,6 @@ extends Node2D
 const ICON_WIDTH: float = 40
 const DOUBLE_CLICK_TIME = 600
 
-
 var focused: bool = false
 
 var icon_function: Callable
