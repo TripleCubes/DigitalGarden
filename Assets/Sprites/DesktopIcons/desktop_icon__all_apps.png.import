@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cjmpn27wmwksx"
-path="res://.godot/imported/desktop_icon_all_apps.png-41e2cd2ac9f60ac00644e17e9d2f2889.ctex"
+path="res://.godot/imported/desktop_icon__all_apps.png-cb404b398de640f412beb616431faea4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/DesktopIcons/desktop_icon_all_apps.png"
-dest_files=["res://.godot/imported/desktop_icon_all_apps.png-41e2cd2ac9f60ac00644e17e9d2f2889.ctex"]
+source_file="res://Assets/Sprites/DesktopIcons/desktop_icon__all_apps.png"
+dest_files=["res://.godot/imported/desktop_icon__all_apps.png-cb404b398de640f412beb616431faea4.ctex"]
 
 [params]
 

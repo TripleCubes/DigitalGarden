@@ -17,9 +17,10 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-GlobalVars="*res://Scripts/global_vars.gd"
-WindowOrderedUpdater="*res://Scripts/window_ordered_updater.gd"
-GlobalFunctions="*res://Scripts/global_functions.gd"
+GlobalVars="*res://Scripts/Singletons/global_vars.gd"
+WindowOrderedUpdater="*res://Scripts/Singletons/window_ordered_updater.gd"
+GlobalFunctions="*res://Scripts/Singletons/global_functions.gd"
+SmoothVarUpdater="*res://Scripts/Singletons/smooth_var_updater.gd"
 
 [display]
 
