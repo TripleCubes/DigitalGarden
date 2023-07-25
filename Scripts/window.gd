@@ -8,7 +8,7 @@ const WINDOW_MIN_W: float = 60
 const WINDOW_MIN_H: float = 60
 const WINDOW_BAR_H: float = 10
 
-var window_scale: float = 1
+var window_scale: float = 2
 
 var left_border_pressed: bool = false
 var top_border_pressed: bool = false
@@ -27,15 +27,17 @@ var previous_window_h: float = 0
 var previous_mouse_pos: Vector2
 
 func _draw():
-	draw_rect(Rect2(WINDOW_BORDER_WIDTH/2 * window_scale, WINDOW_BAR_H * window_scale,
-					(window_w - WINDOW_BORDER_WIDTH/2) * window_scale, 
-					(window_h - WINDOW_BAR_H) * window_scale),
+	draw_set_transform(Vector2(0, 0), 0, Vector2(window_scale, window_scale))
+
+	draw_rect(Rect2(WINDOW_BORDER_WIDTH/2, WINDOW_BAR_H,
+					window_w - WINDOW_BORDER_WIDTH/2, 
+					window_h - WINDOW_BAR_H),
 					Color(0.79, 0.79, 0.79, 1))
-	draw_rect(Rect2(0, 0, window_w * window_scale, WINDOW_BAR_H * window_scale), Color(1, 1, 1, 1))
-	draw_rect(Rect2(WINDOW_BORDER_WIDTH/2 * window_scale, WINDOW_BAR_H * window_scale, 
-					(window_w - WINDOW_BORDER_WIDTH) * window_scale, 
-					(window_h - WINDOW_BAR_H) * window_scale), 
-					Color(1, 1, 1, 1), false, WINDOW_BORDER_WIDTH * window_scale)
+	draw_rect(Rect2(0, 0, window_w, WINDOW_BAR_H), Color(1, 1, 1, 1))
+	draw_rect(Rect2(WINDOW_BORDER_WIDTH/2, WINDOW_BAR_H, 
+					window_w - WINDOW_BORDER_WIDTH, 
+					window_h - WINDOW_BAR_H), 
+					Color(1, 1, 1, 1), false, WINDOW_BORDER_WIDTH)
 	
 func window_ordered_update(_delta: float) -> void:
 	border_press_check()

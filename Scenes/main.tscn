@@ -9,6 +9,7 @@
 script = ExtResource("1_h5qxm")
 
 [node name="Desktop" type="Node2D" parent="."]
+texture_filter = 1
 
 [node name="Icon_ShowAllWindows" parent="Desktop" instance=ExtResource("2_274kd")]
 position = Vector2(56, 360)
@@ -18,6 +19,7 @@ texture = ExtResource("3_vnkpb")
 position = Vector2(56, 432)
 
 [node name="WindowList" type="Node2D" parent="."]
+texture_filter = 1
 
 [node name="Window" parent="WindowList" instance=ExtResource("1_yk6yn")]
 position = Vector2(408, 216)

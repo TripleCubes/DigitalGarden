@@ -10,6 +10,8 @@ var focused: bool = false
 
 var icon_function: Callable
 
+var icon_scale: float = 1
+
 var pressed: bool = false
 var just_pressed: bool = false
 var double_clicked: bool = false
@@ -21,6 +23,8 @@ var previous_mouse_pos: Vector2
 var just_clicked_at: float = 0
 
 func _draw():
+	draw_set_transform(Vector2(0, 0), 0, Vector2(icon_scale, icon_scale))
+	
 	if texture != null:
 		draw_texture(texture, Vector2(0, 0))
 	else:
@@ -67,7 +71,7 @@ func icon_press_check() -> void:
 	if Input.is_action_just_pressed("mouse_left"):
 		var local_mouse_pos: Vector2 = get_local_mouse_position()
 		if local_mouse_pos.x >= 0 and local_mouse_pos.y >= 0 \
-		and local_mouse_pos.x <= ICON_WIDTH and local_mouse_pos.y <= ICON_WIDTH:
+		and local_mouse_pos.x <= ICON_WIDTH * icon_scale and local_mouse_pos.y <= ICON_WIDTH * icon_scale:
 			pressed = true
 			just_pressed = true
 			if not double_clicked and Time.get_ticks_msec() - just_clicked_at < DOUBLE_CLICK_TIME:
