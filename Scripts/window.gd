@@ -12,9 +12,9 @@ const SMOOTH_SCALE_DURATION: float = 300
 const SMOOTH_MOVE_DURATION: float = 300
 
 var window_scale: float = 2
-var previous_window_scale: float = window_scale
-var destination_window_scale: float = window_scale
-var start_smooth_scale_at: float = 0
+var smooth_scale_previous: float = window_scale
+var smooth_scale_destination: float = window_scale
+var smooth_scale_start_at: float = 0
 
 var left_border_pressed: bool = false
 var top_border_pressed: bool = false
@@ -31,6 +31,12 @@ var previous_window_y: float = 0
 var previous_window_w: float = 0
 var previous_window_h: float = 0
 var previous_mouse_pos: Vector2
+
+@onready var smooth_move_previous_x: float = self.position.x
+@onready var smooth_move_previous_y: float = self.position.y
+@onready var smooth_move_destination_x: float = self.position.x
+@onready var smooth_move_destination_y: float = self.position.y
+var smooth_move_start_at: float = 0
 
 func _draw():
 	draw_set_transform(Vector2(0, 0), 0, Vector2(window_scale, window_scale))
@@ -65,31 +71,32 @@ func window_ordered_update(_delta: float) -> void:
 			GlobalFunctions.unfocus_all_desktop_icons()			
 
 	if left_border_pressed:
-		self.position.x = mouse_pos.x
+		move_x(mouse_pos.x)
 		window_w = (previous_window_w * window_scale + (previous_window_x - mouse_pos.x)) / window_scale
 		if window_w < WINDOW_MIN_W:
 			window_w = WINDOW_MIN_W
-			self.position.x = previous_window_x + (previous_window_w - WINDOW_MIN_W) * window_scale
+			move_x(previous_window_x + (previous_window_w - WINDOW_MIN_W) * window_scale)
 	if right_border_pressed:
 		window_w = (mouse_pos.x - self.position.x) / window_scale
 		if window_w < WINDOW_MIN_W:
 			window_w = WINDOW_MIN_W
 	if top_border_pressed:
-		self.position.y = mouse_pos.y
+		move_y(mouse_pos.y)
 		window_h = (previous_window_h * window_scale + (previous_window_y - mouse_pos.y)) / window_scale
 		if window_h < WINDOW_MIN_H:
 			window_h = WINDOW_MIN_H
-			self.position.y = previous_window_y + (previous_window_h - WINDOW_MIN_H) * window_scale
+			move_y(previous_window_y + (previous_window_h - WINDOW_MIN_H) * window_scale)
 	if bottom_border_pressed:
 		window_h = (mouse_pos.y - self.position.y) / window_scale
 		if window_h < WINDOW_MIN_H:
 			window_h = WINDOW_MIN_H
 	
 	if bar_pressed:
-		self.position.x = previous_window_x + mouse_pos.x - previous_mouse_pos.x
-		self.position.y = previous_window_y + mouse_pos.y - previous_mouse_pos.y
+		move(previous_window_x + mouse_pos.x - previous_mouse_pos.x,
+				previous_window_y + mouse_pos.y - previous_mouse_pos.y)
 		
 	smooth_scale_process()
+	smooth_move_process()
 		
 	queue_redraw()
 		
@@ -157,15 +164,47 @@ func place_window_on_top() -> void:
 	window_list.move_child(self, window_list.get_child_count() - 1)
 	
 func smooth_scale(scale: float) -> void:
-	previous_window_scale = window_scale
-	destination_window_scale = scale
-	start_smooth_scale_at = Time.get_ticks_msec()
+	smooth_scale_previous = window_scale
+	smooth_scale_destination = scale
+	smooth_scale_start_at = Time.get_ticks_msec()
 	
 func smooth_scale_process() -> void:
-	var at: float = (Time.get_ticks_msec() - start_smooth_scale_at) / SMOOTH_SCALE_DURATION
+	var at: float = (Time.get_ticks_msec() - smooth_scale_start_at) / SMOOTH_SCALE_DURATION
 	
 	if at > 1:
-		window_scale = destination_window_scale
+		window_scale = smooth_scale_destination
 		return
 		
-	window_scale = lerp(previous_window_scale, destination_window_scale, GlobalFunctions.ease_in_out(at))
+	window_scale = lerp(smooth_scale_previous, smooth_scale_destination, GlobalFunctions.ease_in_out(at))
+
+func move_x(x: float) -> void:
+	smooth_move_previous_x = x
+	smooth_move_destination_x = x
+	self.position.x = x
+	
+func move_y(y: float) -> void:
+	smooth_move_previous_y = y
+	smooth_move_destination_y = y
+	self.position.y = y
+	
+func move(x: float, y: float) -> void:
+	move_x(x)
+	move_y(y)
+	
+func smooth_move(x: float, y: float) -> void:
+	smooth_move_previous_x = self.position.x
+	smooth_move_previous_y = self.position.y
+	smooth_move_destination_x = x
+	smooth_move_destination_y = y
+	smooth_move_start_at = Time.get_ticks_msec()
+	
+func smooth_move_process() -> void:
+	var at: float = (Time.get_ticks_msec() - smooth_move_start_at) / SMOOTH_SCALE_DURATION
+	
+	if at > 1:
+		self.position.x = smooth_move_destination_x
+		self.position.y = smooth_move_destination_y
+		return
+		
+	self.position.x = lerp(smooth_move_previous_x, smooth_move_destination_x, GlobalFunctions.ease_in_out(at))
+	self.position.y = lerp(smooth_move_previous_y, smooth_move_destination_y, GlobalFunctions.ease_in_out(at))	

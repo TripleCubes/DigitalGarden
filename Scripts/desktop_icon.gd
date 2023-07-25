@@ -14,9 +14,9 @@ var focused: bool = false
 var icon_function: Callable
 
 var icon_scale: float = 1
-var previous_icon_scale: float = icon_scale
-var destination_icon_scale: float = icon_scale
-var start_smooth_scale_at: float = 0
+var smooth_scale_previous: float = icon_scale
+var smooth_scale_destination: float = icon_scale
+var smooth_scale_start_at: float = 0
 
 var pressed: bool = false
 var just_pressed: bool = false
@@ -25,6 +25,12 @@ var double_clicked: bool = false
 var previous_x: float = 0
 var previous_y: float = 0
 var previous_mouse_pos: Vector2
+
+@onready var smooth_move_previous_x: float = self.position.x
+@onready var smooth_move_previous_y: float = self.position.y
+@onready var smooth_move_destination_x: float = self.position.x
+@onready var smooth_move_destination_y: float = self.position.y
+var smooth_move_start_at: float = 0
 
 var just_clicked_at: float = 0
 
@@ -53,8 +59,8 @@ func window_ordered_update(_delta: float) -> void:
 		focused = true
 		
 	if pressed:
-		self.position.x = previous_x +mouse_pos.x - previous_mouse_pos.x
-		self.position.y = previous_y +mouse_pos.y - previous_mouse_pos.y
+		move(previous_x +mouse_pos.x - previous_mouse_pos.x,
+				previous_y +mouse_pos.y - previous_mouse_pos.y)
 		
 	if double_clicked:
 		if not icon_function.is_null():
@@ -63,6 +69,7 @@ func window_ordered_update(_delta: float) -> void:
 			print("icon_function is null")
 			
 	smooth_scale_process()
+	smooth_move_process()
 		
 	queue_redraw()
 	
@@ -93,15 +100,47 @@ func place_icon_on_top() -> void:
 	desktop_icon_list.move_child(self, desktop_icon_list.get_child_count() - 1)
 	
 func smooth_scale(scale: float) -> void:
-	previous_icon_scale = icon_scale
-	destination_icon_scale = scale
-	start_smooth_scale_at = Time.get_ticks_msec()
+	smooth_scale_previous = icon_scale
+	smooth_scale_destination = scale
+	smooth_scale_start_at = Time.get_ticks_msec()
 	
 func smooth_scale_process() -> void:
-	var at: float = (Time.get_ticks_msec() - start_smooth_scale_at) / SMOOTH_SCALE_DURATION
+	var at: float = (Time.get_ticks_msec() - smooth_scale_start_at) / SMOOTH_SCALE_DURATION
 		
 	if at > 1:
-		icon_scale = destination_icon_scale
+		icon_scale = smooth_scale_destination
 		return
 		
-	icon_scale = lerp(previous_icon_scale, destination_icon_scale, GlobalFunctions.ease_in_out(at))
+	icon_scale = lerp(smooth_scale_previous, smooth_scale_destination, GlobalFunctions.ease_in_out(at))
+	
+func move_x(x: float) -> void:
+	smooth_move_previous_x = x
+	smooth_move_destination_x = x
+	self.position.x = x
+	
+func move_y(y: float) -> void:
+	smooth_move_previous_y = y
+	smooth_move_destination_y = y
+	self.position.y = y
+	
+func move(x: float, y: float) -> void:
+	move_x(x)
+	move_y(y)
+	
+func smooth_move(x: float, y: float) -> void:
+	smooth_move_previous_x = self.position.x
+	smooth_move_previous_y = self.position.y
+	smooth_move_destination_x = x
+	smooth_move_destination_y = y
+	smooth_move_start_at = Time.get_ticks_msec()
+	
+func smooth_move_process() -> void:
+	var at: float = (Time.get_ticks_msec() - smooth_move_start_at) / SMOOTH_SCALE_DURATION
+	
+	if at > 1:
+		self.position.x = smooth_move_destination_x
+		self.position.y = smooth_move_destination_y
+		return
+		
+	self.position.x = lerp(smooth_move_previous_x, smooth_move_destination_x, GlobalFunctions.ease_in_out(at))
+	self.position.y = lerp(smooth_move_previous_y, smooth_move_destination_y, GlobalFunctions.ease_in_out(at))	
