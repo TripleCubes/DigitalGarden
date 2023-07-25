@@ -38,6 +38,18 @@ var previous_mouse_pos: Vector2
 @onready var smooth_move_destination_y: float = self.position.y
 var smooth_move_start_at: float = 0
 
+func smooth_scale(scale: float) -> void:
+	smooth_scale_previous = window_scale
+	smooth_scale_destination = scale
+	smooth_scale_start_at = Time.get_ticks_msec()
+	
+func smooth_move(x: float, y: float) -> void:
+	smooth_move_previous_x = self.position.x
+	smooth_move_previous_y = self.position.y
+	smooth_move_destination_x = x
+	smooth_move_destination_y = y
+	smooth_move_start_at = Time.get_ticks_msec()
+
 func _draw():
 	draw_set_transform(Vector2(0, 0), 0, Vector2(window_scale, window_scale))
 
@@ -51,8 +63,8 @@ func _draw():
 					window_h - WINDOW_BAR_H), 
 					Color(1, 1, 1, 1), false, WINDOW_BORDER_WIDTH)
 	
-func window_ordered_update(_delta: float) -> void:
-	border_press_check()
+func _window_ordered_update(_delta: float) -> void:
+	_border_press_check()
 	var mouse_pos: Vector2 = get_viewport().get_mouse_position()
 	
 	if Input.is_action_just_pressed("mouse_left"):
@@ -63,44 +75,44 @@ func window_ordered_update(_delta: float) -> void:
 			previous_window_w = window_w
 			previous_window_h = window_h
 			previous_mouse_pos = mouse_pos
-			place_window_on_top()
+			_place_window_on_top()
 			GlobalFunctions.unfocus_all_desktop_icons()
 			
 		if content_pressed:
-			place_window_on_top()
+			_place_window_on_top()
 			GlobalFunctions.unfocus_all_desktop_icons()			
 
 	if left_border_pressed:
-		move_x(mouse_pos.x)
+		_move_x(mouse_pos.x)
 		window_w = (previous_window_w * window_scale + (previous_window_x - mouse_pos.x)) / window_scale
 		if window_w < WINDOW_MIN_W:
 			window_w = WINDOW_MIN_W
-			move_x(previous_window_x + (previous_window_w - WINDOW_MIN_W) * window_scale)
+			_move_x(previous_window_x + (previous_window_w - WINDOW_MIN_W) * window_scale)
 	if right_border_pressed:
 		window_w = (mouse_pos.x - self.position.x) / window_scale
 		if window_w < WINDOW_MIN_W:
 			window_w = WINDOW_MIN_W
 	if top_border_pressed:
-		move_y(mouse_pos.y)
+		_move_y(mouse_pos.y)
 		window_h = (previous_window_h * window_scale + (previous_window_y - mouse_pos.y)) / window_scale
 		if window_h < WINDOW_MIN_H:
 			window_h = WINDOW_MIN_H
-			move_y(previous_window_y + (previous_window_h - WINDOW_MIN_H) * window_scale)
+			_move_y(previous_window_y + (previous_window_h - WINDOW_MIN_H) * window_scale)
 	if bottom_border_pressed:
 		window_h = (mouse_pos.y - self.position.y) / window_scale
 		if window_h < WINDOW_MIN_H:
 			window_h = WINDOW_MIN_H
 	
 	if bar_pressed:
-		move(previous_window_x + mouse_pos.x - previous_mouse_pos.x,
+		_move(previous_window_x + mouse_pos.x - previous_mouse_pos.x,
 				previous_window_y + mouse_pos.y - previous_mouse_pos.y)
 		
-	smooth_scale_process()
-	smooth_move_process()
+	_smooth_scale_process()
+	_smooth_move_process()
 		
 	queue_redraw()
 		
-func border_press_check() -> void:
+func _border_press_check() -> void:
 	if Input.is_action_just_released("mouse_left"):
 		top_border_pressed = false
 		left_border_pressed = false
@@ -160,15 +172,10 @@ func border_press_check() -> void:
 			GlobalVars.button_press_detected = true
 			return
 				
-func place_window_on_top() -> void:
+func _place_window_on_top() -> void:
 	window_list.move_child(self, window_list.get_child_count() - 1)
 	
-func smooth_scale(scale: float) -> void:
-	smooth_scale_previous = window_scale
-	smooth_scale_destination = scale
-	smooth_scale_start_at = Time.get_ticks_msec()
-	
-func smooth_scale_process() -> void:
+func _smooth_scale_process() -> void:
 	var at: float = (Time.get_ticks_msec() - smooth_scale_start_at) / SMOOTH_SCALE_DURATION
 	
 	if at > 1:
@@ -177,28 +184,21 @@ func smooth_scale_process() -> void:
 		
 	window_scale = lerp(smooth_scale_previous, smooth_scale_destination, GlobalFunctions.ease_in_out(at))
 
-func move_x(x: float) -> void:
+func _move_x(x: float) -> void:
 	smooth_move_previous_x = x
 	smooth_move_destination_x = x
 	self.position.x = x
 	
-func move_y(y: float) -> void:
+func _move_y(y: float) -> void:
 	smooth_move_previous_y = y
 	smooth_move_destination_y = y
 	self.position.y = y
 	
-func move(x: float, y: float) -> void:
-	move_x(x)
-	move_y(y)
+func _move(x: float, y: float) -> void:
+	_move_x(x)
+	_move_y(y)
 	
-func smooth_move(x: float, y: float) -> void:
-	smooth_move_previous_x = self.position.x
-	smooth_move_previous_y = self.position.y
-	smooth_move_destination_x = x
-	smooth_move_destination_y = y
-	smooth_move_start_at = Time.get_ticks_msec()
-	
-func smooth_move_process() -> void:
+func _smooth_move_process() -> void:
 	var at: float = (Time.get_ticks_msec() - smooth_move_start_at) / SMOOTH_SCALE_DURATION
 	
 	if at > 1:

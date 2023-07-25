@@ -1,3 +1,4 @@
+class_name DesktopIcon
 extends Node2D
 
 @onready var desktop_icon_list = get_node("/root/Main/Desktop")
@@ -34,6 +35,18 @@ var smooth_move_start_at: float = 0
 
 var just_clicked_at: float = 0
 
+func smooth_scale(scale: float) -> void:
+	smooth_scale_previous = icon_scale
+	smooth_scale_destination = scale
+	smooth_scale_start_at = Time.get_ticks_msec()
+	
+func smooth_move(x: float, y: float) -> void:
+	smooth_move_previous_x = self.position.x
+	smooth_move_previous_y = self.position.y
+	smooth_move_destination_x = x
+	smooth_move_destination_y = y
+	smooth_move_start_at = Time.get_ticks_msec()
+
 func _draw():
 	draw_set_transform(Vector2(0, 0), 0, Vector2(icon_scale, icon_scale))
 	
@@ -45,8 +58,8 @@ func _draw():
 	if focused:
 		draw_rect(Rect2(1, 1, ICON_WIDTH - 2, ICON_WIDTH - 2), Color(0.57, 0.76, 1), false, 2)
 
-func window_ordered_update(_delta: float) -> void:	
-	icon_press_check()
+func _window_ordered_update(_delta: float) -> void:	
+	_icon_press_check()
 	
 	var mouse_pos = get_global_mouse_position()
 	
@@ -54,12 +67,12 @@ func window_ordered_update(_delta: float) -> void:
 		previous_x = self.position.x
 		previous_y = self.position.y
 		previous_mouse_pos =mouse_pos
-		place_icon_on_top()
+		_place_icon_on_top()
 		GlobalFunctions.unfocus_all_desktop_icons()
 		focused = true
 		
 	if pressed:
-		move(previous_x +mouse_pos.x - previous_mouse_pos.x,
+		_move(previous_x +mouse_pos.x - previous_mouse_pos.x,
 				previous_y +mouse_pos.y - previous_mouse_pos.y)
 		
 	if double_clicked:
@@ -68,12 +81,12 @@ func window_ordered_update(_delta: float) -> void:
 		else:
 			print("icon_function is null")
 			
-	smooth_scale_process()
-	smooth_move_process()
+	_smooth_scale_process()
+	_smooth_move_process()
 		
 	queue_redraw()
 	
-func icon_press_check() -> void:
+func _icon_press_check() -> void:
 	if Input.is_action_just_released("mouse_left"):
 		pressed = false
 		
@@ -96,15 +109,10 @@ func icon_press_check() -> void:
 				just_clicked_at = Time.get_ticks_msec()
 			GlobalVars.button_press_detected = true
 	
-func place_icon_on_top() -> void:
+func _place_icon_on_top() -> void:
 	desktop_icon_list.move_child(self, desktop_icon_list.get_child_count() - 1)
 	
-func smooth_scale(scale: float) -> void:
-	smooth_scale_previous = icon_scale
-	smooth_scale_destination = scale
-	smooth_scale_start_at = Time.get_ticks_msec()
-	
-func smooth_scale_process() -> void:
+func _smooth_scale_process() -> void:
 	var at: float = (Time.get_ticks_msec() - smooth_scale_start_at) / SMOOTH_SCALE_DURATION
 		
 	if at > 1:
@@ -113,28 +121,21 @@ func smooth_scale_process() -> void:
 		
 	icon_scale = lerp(smooth_scale_previous, smooth_scale_destination, GlobalFunctions.ease_in_out(at))
 	
-func move_x(x: float) -> void:
+func _move_x(x: float) -> void:
 	smooth_move_previous_x = x
 	smooth_move_destination_x = x
 	self.position.x = x
 	
-func move_y(y: float) -> void:
+func _move_y(y: float) -> void:
 	smooth_move_previous_y = y
 	smooth_move_destination_y = y
 	self.position.y = y
 	
-func move(x: float, y: float) -> void:
-	move_x(x)
-	move_y(y)
+func _move(x: float, y: float) -> void:
+	_move_x(x)
+	_move_y(y)
 	
-func smooth_move(x: float, y: float) -> void:
-	smooth_move_previous_x = self.position.x
-	smooth_move_previous_y = self.position.y
-	smooth_move_destination_x = x
-	smooth_move_destination_y = y
-	smooth_move_start_at = Time.get_ticks_msec()
-	
-func smooth_move_process() -> void:
+func _smooth_move_process() -> void:
 	var at: float = (Time.get_ticks_msec() - smooth_move_start_at) / SMOOTH_SCALE_DURATION
 	
 	if at > 1:
