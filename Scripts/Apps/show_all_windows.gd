@@ -135,7 +135,9 @@ func _window_click_check() -> void:
 			and mouse_pos.x <= window_pos.x + window_size.x \
 			and mouse_pos.y <= window_pos.y + window_size.y:
 				_return_windows_to_previous_pos()
-				window.smooth_move(50, 50)
+				var move_to_x = randf_range(30, 60)
+				var move_to_y = randf_range(30, 60)
+				window.smooth_move(move_to_x, move_to_y)
 				window.place_window_on_top()
 				_close_app()
 				

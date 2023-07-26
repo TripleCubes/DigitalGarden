@@ -3,29 +3,27 @@ extends Node2D
 
 const WINDOW_BORDER_WIDTH: float = 1
 const WINDOW_BORDER_PRESS_DETECTION_WIDTH: float = 6
-const WINDOW_MIN_W: float = 60
-const WINDOW_MIN_H: float = 60
 const WINDOW_BAR_H: float = 10
 
-func _init(app_name: int, x: float, y: float, w: float, h: float, init_scale: float):
+func _init(app_name: int):
 	_app_name = app_name
-	self.position.x = x
-	self.position.y = y
-	_x.set_var(x)
-	_y.set_var(y)
-	_w = w
-	_h = h
-	_scale.set_var(init_scale)
 	
-	_close_button = Game_Button.new((_w -  WINDOW_BAR_H) * init_scale, 1 * init_scale, 
-										9, 9, init_scale, 
+	var init_x = randf_range(30, 60)
+	var init_y = randf_range(30, 60)
+	self.position.x = init_x
+	self.position.y = init_y
+	_x.set_var(init_x)
+	_y.set_var(init_y)
+	
+	_scale.set_var(2)
+	
+	_set_up()
+	
+	_close_button = Game_Button.new((_w -  WINDOW_BAR_H) * _scale.get_var(), 1 * _scale.get_var(), 
+										9, 9, _scale.get_var(), 
 										Color(1, 1, 1, 1), _texture__ui__x)
 	add_child(_close_button)
 	_close_button.show_button()
-	
-	if app_name == AppNames.POT:
-		_app = App_Pot.new()
-		add_child(_app)
 	
 func smooth_move(x: float, y: float) -> void:
 	_x.set_destination(x)
@@ -73,6 +71,10 @@ var _x: = SmoothVar.new(0)
 var _y: = SmoothVar.new(0)
 var _w: float = 100
 var _h: float = 60
+var _min_w: float = 60
+var _min_h: float = 60
+var _max_w: float = 200
+var _max_h: float = 200
 var _scale: = SmoothVar.new(1)
 
 var _previous_x: float = 0
@@ -95,11 +97,17 @@ func _draw():
 					_w - WINDOW_BORDER_WIDTH, 
 					_h - WINDOW_BAR_H), 
 					Color(1, 1, 1, 1), false, WINDOW_BORDER_WIDTH)
+					
+	if _app != null:
+		_app.draw_app_content()
 	
-func update(_delta: float) -> void:
-	_close_button.update(_delta)
+func update(delta: float) -> void:
+	_close_button.update(delta)
 	if _close_button.pressed():
 		queue_free()
+		
+	if _app != null:
+		_app.update(delta)
 	
 	_border_press_check()
 	var mouse_pos: Vector2 = get_viewport().get_mouse_position()
@@ -115,30 +123,42 @@ func update(_delta: float) -> void:
 			place_window_on_top()
 			
 		if _content_pressed:
+			if GlobalVars.show_debug_informations:
+				print(Vector2(_w, _h))
 			place_window_on_top()
 
 	if _left_border_pressed:
 		_x.set_var(mouse_pos.x)
 		_w = (_previous_w * _scale.get_var() + (_previous_x - mouse_pos.x)) / _scale.get_var()
-		if _w < WINDOW_MIN_W:
-			_w = WINDOW_MIN_W
-			_x.set_var(_previous_x + (_previous_w - WINDOW_MIN_W) * _scale.get_var())
+		if _w < _min_w:
+			_w = _min_w
+			_x.set_var(_previous_x + (_previous_w - _min_w) * _scale.get_var())
+		if _w > _max_w:
+			_w = _max_w
+			_x.set_var(_previous_x + (_previous_w - _max_w) * _scale.get_var())
 		_close_button.set_button_x((_w -  WINDOW_BAR_H) * _scale.get_var())
 	if _right_border_pressed:
 		_w = (mouse_pos.x - self.position.x) / _scale.get_var()
-		if _w < WINDOW_MIN_W:
-			_w = WINDOW_MIN_W
+		if _w < _min_w:
+			_w = _min_w
+		if _w > _max_w:
+			_w = _max_w
 		_close_button.set_button_x((_w -  WINDOW_BAR_H) * _scale.get_var())
 	if _top_border_pressed:
 		_y.set_var(mouse_pos.y)
 		_h = (_previous_h * _scale.get_var() + (_previous_y - mouse_pos.y)) / _scale.get_var()
-		if _h < WINDOW_MIN_H:
-			_h = WINDOW_MIN_H
-			_y.set_var(_previous_y + (_previous_h - WINDOW_MIN_H) * _scale.get_var())
+		if _h < _min_h:
+			_h = _min_h
+			_y.set_var(_previous_y + (_previous_h - _min_h) * _scale.get_var())
+		if _h > _max_h:
+			_h = _max_h
+			_y.set_var(_previous_y + (_previous_h - _max_h) * _scale.get_var())
 	if _bottom_border_pressed:
 		_h = (mouse_pos.y - self.position.y) / _scale.get_var()
-		if _h < WINDOW_MIN_H:
-			_h = WINDOW_MIN_H
+		if _h < _min_h:
+			_h = _min_h
+		if _h > _max_h:
+			_h = _max_h
 	
 	if _bar_pressed:
 		_x.set_var(_previous_x + mouse_pos.x - _previous_mouse_pos.x)
@@ -209,3 +229,19 @@ func _border_press_check() -> void:
 			_content_pressed = true
 			GlobalVars.button_press_detected = true
 			return
+			
+func _set_up() -> void:
+	if _app_name == AppNames.POT:
+		_app = App_Pot.new(self)
+		add_child(_app)
+		
+	elif _app_name == AppNames.WATER:
+		_app = App_Water.new(self)
+		add_child(_app)
+		
+		_w = 60
+		_h = 60
+		_min_w = 60
+		_max_w = 60
+		_min_h = 60
+		_max_h = 60

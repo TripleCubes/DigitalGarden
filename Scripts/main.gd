@@ -20,10 +20,15 @@ func _ready():
 func _process(_delta):
 	GlobalVars.button_press_detected = false
 	
+	if Input.is_action_just_pressed("KEY_1"):
+		GlobalVars.show_debug_informations = not GlobalVars.show_debug_informations
+	
+	if Input.is_action_just_pressed("KEY_2"):
+		print(get_global_mouse_position())
+	
 func _add_desktop_icon(app_name: int, texture: Texture2D, x: float, y: float):
 	var desktop_icon: = Game_DesktopIcon.new(app_name, x, y, 1, func icon_func():
-		var window: = Game_Window.new(app_name, randf_range(-10, 700), randf_range(-10, 400),
-										randf_range(100, 250), randf_range(80, 230), 2)
+		var window: = Game_Window.new(app_name)
 		$WindowList.add_child(window)
 	, texture)
 	$Desktop.add_child(desktop_icon)

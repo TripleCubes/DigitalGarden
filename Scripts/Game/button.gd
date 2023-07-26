@@ -131,6 +131,9 @@ func _draw():
 		draw_texture(_texture, Vector2(0, 0))
 	else:
 		draw_rect(Rect2(0, 0, _w, _h), _color)
+		
+	if GlobalVars.show_debug_informations:
+		draw_rect(Rect2(0, 0, _w, _h), Color(1, 0, 0), false, 1)
 	
 func update(_delta) -> void:
 	if not _button_visible:
