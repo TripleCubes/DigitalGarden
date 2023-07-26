@@ -3,11 +3,15 @@ extends Node2D
 
 const ICON_WIDTH: float = 40
 
-func _init(x: float, y: float, init_scale: float, icon_function: Callable, texture: Texture2D = null):
+func _init(app_name: int, x: float, y: float, init_scale: float, icon_function: Callable, texture: Texture2D = null):
+	_app_name = app_name
 	_icon_function = icon_function
-	_button = Game_Button.new(x, y, ICON_WIDTH, ICON_WIDTH, init_scale, texture)
+	_button = Game_Button.new(x, y, ICON_WIDTH, ICON_WIDTH, init_scale, Color(1, 1, 1, 1), texture)
 	add_child(_button)
 	_button.show_button()
+	
+func get_app_name() -> int:
+	return _app_name
 	
 func smooth_move(x: float, y: float) -> void:
 	_button.smooth_move(x, y)
@@ -22,12 +26,14 @@ func get_destination() -> Vector2:
 
 @onready var _button: Game_Button
 
+var _app_name: int = 0
+
 var _icon_function: Callable
 
 var _previous_pos: Vector2
 var _previous_mouse_pos: Vector2
 
-func _window_ordered_update(_delta) -> void:
+func update(_delta) -> void:
 	_button.update(_delta)
 	
 	var mouse_pos: = get_global_mouse_position()

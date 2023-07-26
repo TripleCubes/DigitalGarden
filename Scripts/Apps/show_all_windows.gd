@@ -13,23 +13,15 @@ func open_app() -> void:
 	if _app_opening:
 		return
 		
+	if _window_list.get_child_count() == 0:
+		return
+		
 	_scroll_bar.show_scrollbar()
 	_scroll_bar.scroll_to_zero()
 	
-	_previous_window_pos_list.clear()
-	_previous_desktop_icon_pos_list.clear()
-	
-	for app_group in _organized_window_list:
-		app_group.clear()
-	
-	for window in _window_list.get_children():
-		_previous_window_pos_list.append(window.get_destination())
-		_organized_window_list[window.get_app_name()].append(window)
-		
-	for icon in _desktop_icon_list.get_children():
-		_previous_desktop_icon_pos_list.append(icon.get_destination())
-		
-	_scroll_bar.set_page_size(_set_windows_position(0, true), 500)
+	_set_windows_data()
+	var page_size: = _set_windows_position(0, true)
+	_scroll_bar.set_page_size(page_size, 500)
 		
 	_app_opening = true
 	
@@ -64,6 +56,8 @@ func update(delta) -> void:
 		_set_windows_position(_scroll_bar.get_value_pixel(), false)
 		
 	_window_click_check()
+	
+	GlobalVars.button_press_detected = true	
 	
 func _ready():
 	_organized_window_list.clear()
@@ -101,6 +95,22 @@ func _set_windows_position(scrolling: float, smooth_move: bool) -> float:
 	_cursor_y += PADDING_BOTTOM
 	return _cursor_y
 	
+func _set_windows_data() -> void:
+	_previous_window_pos_list.clear()
+	_previous_desktop_icon_pos_list.clear()
+	
+	for app_group in _organized_window_list:
+		app_group.clear()
+	
+	for window in _window_list.get_children():
+		if window.is_queued_for_deletion():
+			continue
+		_previous_window_pos_list.append(window.get_destination())
+		_organized_window_list[window.get_app_name()].append(window)
+		
+	for icon in _desktop_icon_list.get_children():
+		_previous_desktop_icon_pos_list.append(icon.get_destination())
+	
 func _window_click_check() -> void:
 	if not Input.is_action_just_pressed("MOUSE_LEFT"):
 		return
@@ -110,15 +120,29 @@ func _window_click_check() -> void:
 		for window in window_group:
 			var window_pos: Vector2 = window.get_pos()
 			var window_size: Vector2 = window.get_size()
+			if _close_button_hovered(mouse_pos, window_pos, window_size):
+				window.queue_free()
+				_set_windows_data()
+				_set_windows_position(_scroll_bar.get_value_pixel(), true)
+				if _previous_window_pos_list.size() == 0:
+					_close_app()
+				return
 			if mouse_pos.x >= window_pos.x and mouse_pos.y >= window_pos.y \
 			and mouse_pos.x <= window_pos.x + window_size.x \
 			and mouse_pos.y <= window_pos.y + window_size.y:
 				_return_windows_to_previous_pos()
-				window.smooth_move(400 - window_size.x, 250 - window_size.y)
+				window.smooth_move(50, 50)
 				window.place_window_on_top()
-				GlobalVars.button_press_detected = true
 				_close_app()
 				
+func _close_button_hovered(mouse_pos: Vector2, window_pos: Vector2, window_size: Vector2) -> bool:
+	if mouse_pos.x >= window_pos.x + (window_size.x - Game_Window.WINDOW_BAR_H) \
+	and mouse_pos.y >= window_pos.y + 1 \
+	and mouse_pos.x <= window_pos.x + (window_size.x - Game_Window.WINDOW_BAR_H) + 9 \
+	and mouse_pos.y <= window_pos.y + 1 + 9:
+		return true
+	return false
+	
 func _return_windows_to_previous_pos() -> void:
 	for i in _window_list.get_child_count():
 		var previous_pos = _previous_window_pos_list[i]

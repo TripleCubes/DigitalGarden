@@ -2,7 +2,7 @@ class_name Game_ScrollBar
 extends Node2D
 
 const SCROLL_BAR_WIDTH: float = 15
-const SCROLL_SPEED: float = 350
+const SCROLL_SPEED: float = 1300 # Pixels per second
 
 func show_scrollbar() -> void:
 	_button.show_button()
@@ -93,11 +93,13 @@ func update(delta) -> void:
 		pass
 	else:
 		if Input.is_action_just_released("SCROLL_UP"):
-			_button.set_button_y(button_pos.y - delta * SCROLL_SPEED)
+			var scroll_amount: float = SCROLL_SPEED / (_page_size - _visible_size) * (_length - _button.get_button_size().y)
+			_button.set_button_y(button_pos.y - delta * scroll_amount)
 			_scrolled = true
 				
 		elif Input.is_action_just_released("SCROLL_DOWN"):
-			_button.set_button_y(button_pos.y + delta * SCROLL_SPEED)
+			var scroll_amount: float = SCROLL_SPEED / (_page_size - _visible_size) * (_length - _button.get_button_size().y)
+			_button.set_button_y(button_pos.y + delta * scroll_amount)
 			_scrolled = true
 		
 	if _horizontal:

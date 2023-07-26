@@ -3,6 +3,19 @@ extends Node2D
 
 const DOUBLE_CLICK_TIME = 600
 
+func _init(x: float, y: float, w: float, h: float, init_scale: float, color: 
+			Color = Color(1, 1, 1, 1), texture: Texture2D = null):
+	self.position.x = x
+	self.position.y = y
+	_x.set_var(x)
+	_y.set_var(y)
+	_w = w
+	_h = h
+	_scale.set_var(init_scale)
+	
+	_color = color
+	_texture = texture
+
 func show_button() -> void:
 	_button_visible = true
 	
@@ -79,6 +92,11 @@ func cap_y(min_cap: float, max_cap: float) -> void:
 	elif _y.get_var() + _h > max_cap:
 		_y.set_var(max_cap - _h)
 		
+func redraw() -> void:
+	self.position.x = _x.get_var()
+	self.position.y = _y.get_var()
+	queue_redraw()
+		
 var _button_visible: bool = false
 
 var _x: = SmoothVar.new(0)
@@ -93,21 +111,12 @@ var _double_clicked: bool = false
 
 var _just_clicked_at: float = 0
 
+var _color: Color
 var _texture: Texture2D = null
 
 var _previous_x: float = 0
 var _previous_y: float = 0
 var _previous_mouse_pos: Vector2
-
-func _init(x: float, y: float, w: float, h: float, init_scale: float, texture: Texture2D = null):
-	self.position.x = x
-	self.position.y = y
-	_x.set_var(x)
-	_y.set_var(y)
-	_w = w
-	_h = h
-	_scale.set_var(init_scale)
-	_texture = texture
 	
 func _draw():
 	if not _button_visible:
@@ -118,7 +127,7 @@ func _draw():
 	if _texture != null:
 		draw_texture(_texture, Vector2(0, 0))
 	else:
-		draw_rect(Rect2(0, 0, _w, _h), Color(1, 1, 1, 1))
+		draw_rect(Rect2(0, 0, _w, _h), _color)
 	
 func update(_delta) -> void:
 	if not _button_visible:
@@ -137,10 +146,10 @@ func update(_delta) -> void:
 		return
 		
 	if Input.is_action_just_pressed("MOUSE_LEFT"):
-		var mouse_pos: Vector2 = get_global_mouse_position()
-		if mouse_pos.x >= self.position.x and mouse_pos.y >= self.position.y \
-		and mouse_pos.x <= self.position.x + _w * _scale.get_var() \
-		and mouse_pos.y <= self.position.y + _h * _scale.get_var():
+		var local_mouse_pos: Vector2 = get_local_mouse_position()
+		if local_mouse_pos.x >= 0 and local_mouse_pos.y >= 0 \
+		and local_mouse_pos.x <= _w * _scale.get_var() \
+		and local_mouse_pos.y <= _h * _scale.get_var():
 			_pressed = true
 			_just_pressed = true
 			if not _double_clicked and Time.get_ticks_msec() - _just_clicked_at < DOUBLE_CLICK_TIME:

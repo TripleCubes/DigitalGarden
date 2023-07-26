@@ -7,13 +7,24 @@ const WINDOW_MIN_W: float = 60
 const WINDOW_MIN_H: float = 60
 const WINDOW_BAR_H: float = 10
 
-func _init(app_name: int, x: float, y: float, w: float, h: float, init_scale: float):
+func _init(app_name: int, x: float, y: float, w: float, h: float, init_scale: float, app: Node2D):
 	_app_name = app_name
+	self.position.x = x
+	self.position.y = y
 	_x.set_var(x)
 	_y.set_var(y)
 	_w = w
 	_h = h
 	_scale.set_var(init_scale)
+	
+	_close_button = Game_Button.new((_w -  WINDOW_BAR_H) * init_scale, 1 * init_scale, 
+										9, 9, init_scale, 
+										Color(1, 1, 1, 1), _texture__ui__x)
+	add_child(_close_button)
+	_close_button.show_button()
+	
+	if app != null:
+		add_child(app)
 	
 func smooth_move(x: float, y: float) -> void:
 	_x.set_destination(x)
@@ -25,6 +36,8 @@ func set_pos(x: float, y: float) -> void:
 	
 func smooth_scale(in_scale: float) -> void:
 	_scale.set_destination(in_scale)
+	_close_button.smooth_move((_w -  WINDOW_BAR_H) * in_scale, 1 * in_scale)
+	_close_button.smooth_scale(in_scale)
 	
 func get_pos() -> Vector2:
 	return Vector2(_x.get_var(), _y.get_var())
@@ -42,8 +55,11 @@ func place_window_on_top() -> void:
 	_window_list.move_child(self, _window_list.get_child_count() - 1)
 
 @onready var _window_list: Node2D = get_node("/root/Main/WindowList")
+const _texture__ui__x: Texture2D = preload("res://Assets/Sprites/UI/ui__x.png")
 
 var _app_name: int = AppNames.NOT_SET
+
+var _app: Node2D = null
 
 var _left_border_pressed: bool = false
 var _top_border_pressed: bool = false
@@ -64,6 +80,8 @@ var _previous_w: float = 0
 var _previous_h: float = 0
 var _previous_mouse_pos: Vector2
 
+var _close_button: Game_Button
+
 func _draw():
 	draw_set_transform(Vector2(0, 0), 0, Vector2(_scale.get_var(), _scale.get_var()))
 
@@ -77,7 +95,11 @@ func _draw():
 					_h - WINDOW_BAR_H), 
 					Color(1, 1, 1, 1), false, WINDOW_BORDER_WIDTH)
 	
-func _window_ordered_update(_delta: float) -> void:
+func update(_delta: float) -> void:
+	_close_button.update(_delta)
+	if _close_button.pressed():
+		queue_free()
+	
 	_border_press_check()
 	var mouse_pos: Vector2 = get_viewport().get_mouse_position()
 	
@@ -100,10 +122,12 @@ func _window_ordered_update(_delta: float) -> void:
 		if _w < WINDOW_MIN_W:
 			_w = WINDOW_MIN_W
 			_x.set_var(_previous_x + (_previous_w - WINDOW_MIN_W) * _scale.get_var())
+		_close_button.set_button_x((_w -  WINDOW_BAR_H) * _scale.get_var())
 	if _right_border_pressed:
 		_w = (mouse_pos.x - self.position.x) / _scale.get_var()
 		if _w < WINDOW_MIN_W:
 			_w = WINDOW_MIN_W
+		_close_button.set_button_x((_w -  WINDOW_BAR_H) * _scale.get_var())
 	if _top_border_pressed:
 		_y.set_var(mouse_pos.y)
 		_h = (_previous_h * _scale.get_var() + (_previous_y - mouse_pos.y)) / _scale.get_var()
@@ -122,6 +146,7 @@ func _window_ordered_update(_delta: float) -> void:
 	self.position.x = _x.get_var()
 	self.position.y = _y.get_var()
 		
+	_close_button.redraw()
 	queue_redraw()
 		
 func _border_press_check() -> void:
