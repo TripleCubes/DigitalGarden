@@ -7,7 +7,8 @@ const WINDOW_MIN_W: float = 60
 const WINDOW_MIN_H: float = 60
 const WINDOW_BAR_H: float = 10
 
-func _init(x: float, y: float, w: float, h: float, init_scale: float):
+func _init(app_name: int, x: float, y: float, w: float, h: float, init_scale: float):
+	_app_name = app_name
 	_x.set_var(x)
 	_y.set_var(y)
 	_w = w
@@ -18,10 +19,31 @@ func smooth_move(x: float, y: float) -> void:
 	_x.set_destination(x)
 	_y.set_destination(y)
 	
+func set_pos(x: float, y: float) -> void:
+	_x.set_var(x)
+	_y.set_var(y)
+	
 func smooth_scale(in_scale: float) -> void:
 	_scale.set_destination(in_scale)
+	
+func get_pos() -> Vector2:
+	return Vector2(_x.get_var(), _y.get_var())
+	
+func get_destination() -> Vector2:
+	return Vector2(_x.get_destination(), _y.get_destination())
+	
+func get_size() -> Vector2:
+	return Vector2(_w, _h)
+	
+func get_app_name() -> int:
+	return _app_name
+	
+func place_window_on_top() -> void:
+	_window_list.move_child(self, _window_list.get_child_count() - 1)
 
 @onready var _window_list: Node2D = get_node("/root/Main/WindowList")
+
+var _app_name: int = AppNames.NOT_SET
 
 var _left_border_pressed: bool = false
 var _top_border_pressed: bool = false
@@ -59,7 +81,7 @@ func _window_ordered_update(_delta: float) -> void:
 	_border_press_check()
 	var mouse_pos: Vector2 = get_viewport().get_mouse_position()
 	
-	if Input.is_action_just_pressed("mouse_left"):
+	if Input.is_action_just_pressed("MOUSE_LEFT"):
 		if _left_border_pressed or _right_border_pressed or _top_border_pressed or _bottom_border_pressed \
 		or _bar_pressed:
 			_previous_x = self.position.x
@@ -67,10 +89,10 @@ func _window_ordered_update(_delta: float) -> void:
 			_previous_w = _w
 			_previous_h = _h
 			_previous_mouse_pos = mouse_pos
-			_place_window_on_top()
+			place_window_on_top()
 			
 		if _content_pressed:
-			_place_window_on_top()
+			place_window_on_top()
 
 	if _left_border_pressed:
 		_x.set_var(mouse_pos.x)
@@ -103,7 +125,7 @@ func _window_ordered_update(_delta: float) -> void:
 	queue_redraw()
 		
 func _border_press_check() -> void:
-	if Input.is_action_just_released("mouse_left"):
+	if Input.is_action_just_released("MOUSE_LEFT"):
 		_top_border_pressed = false
 		_left_border_pressed = false
 		_right_border_pressed = false
@@ -116,7 +138,7 @@ func _border_press_check() -> void:
 		
 	var border_pressed: bool = false
 		
-	if Input.is_action_just_pressed("mouse_left"):
+	if Input.is_action_just_pressed("MOUSE_LEFT"):
 		var mouse_pos: Vector2 = get_global_mouse_position()
 		if abs(mouse_pos.x - self.position.x) < WINDOW_BORDER_PRESS_DETECTION_WIDTH \
 		and mouse_pos.y >= self.position.y - WINDOW_BORDER_PRESS_DETECTION_WIDTH \
@@ -161,6 +183,3 @@ func _border_press_check() -> void:
 			_content_pressed = true
 			GlobalVars.button_press_detected = true
 			return
-				
-func _place_window_on_top() -> void:
-	_window_list.move_child(self, _window_list.get_child_count() - 1)

@@ -3,6 +3,12 @@ extends Node2D
 
 const DOUBLE_CLICK_TIME = 600
 
+func show_button() -> void:
+	_button_visible = true
+	
+func hide_button() -> void:
+	_button_visible = false
+
 func pressed() -> bool:
 	return _pressed
 
@@ -35,9 +41,45 @@ func set_button_pos(x: float, y: float) -> void:
 func get_button_pos() -> Vector2:
 	return Vector2(_x.get_var(), _y.get_var())
 	
+func get_button_destination() -> Vector2:
+	return Vector2(_x.get_destination(), _y.get_destination())
+	
+func get_button_size() -> Vector2:
+	return Vector2(_w, _h)
+	
 func set_button_size(w: float, h: float) -> void:
 	_w = w
 	_h = h
+	
+func mouse_drag_x() -> void:
+	if _just_pressed:
+		_previous_mouse_pos = get_global_mouse_position()
+		_previous_x = _x.get_var()
+	elif _pressed:
+		var mouse_pos = get_global_mouse_position()
+		_x.set_var(_previous_x + mouse_pos.x - _previous_mouse_pos.x)
+		
+func mouse_drag_y() -> void:
+	if _just_pressed:
+		_previous_mouse_pos = get_global_mouse_position()
+		_previous_y = _y.get_var()
+	elif _pressed:
+		var mouse_pos = get_global_mouse_position()
+		_y.set_var(_previous_y + mouse_pos.y - _previous_mouse_pos.y)
+		
+func cap_x(min_cap: float, max_cap: float) -> void:
+	if _x.get_var() < min_cap:
+		_x.set_var(min_cap) 
+	elif _x.get_var() + _w > max_cap:
+		_x.set_var(max_cap - _w)
+		
+func cap_y(min_cap: float, max_cap: float) -> void:
+	if _y.get_var() < min_cap:
+		_y.set_var(min_cap) 
+	elif _y.get_var() + _h > max_cap:
+		_y.set_var(max_cap - _h)
+		
+var _button_visible: bool = false
 
 var _x: = SmoothVar.new(0)
 var _y: = SmoothVar.new(0)
@@ -53,6 +95,10 @@ var _just_clicked_at: float = 0
 
 var _texture: Texture2D = null
 
+var _previous_x: float = 0
+var _previous_y: float = 0
+var _previous_mouse_pos: Vector2
+
 func _init(x: float, y: float, w: float, h: float, init_scale: float, texture: Texture2D = null):
 	self.position.x = x
 	self.position.y = y
@@ -64,6 +110,9 @@ func _init(x: float, y: float, w: float, h: float, init_scale: float, texture: T
 	_texture = texture
 	
 func _draw():
+	if not _button_visible:
+		return
+		
 	draw_set_transform(Vector2(0, 0), 0, Vector2(_scale.get_var(), _scale.get_var()))
 
 	if _texture != null:
@@ -71,11 +120,14 @@ func _draw():
 	else:
 		draw_rect(Rect2(0, 0, _w, _h), Color(1, 1, 1, 1))
 	
-func update() -> void:
+func update(_delta) -> void:
+	if not _button_visible:
+		return
+		
 	self.position.x = _x.get_var()
 	self.position.y = _y.get_var()
 	
-	if Input.is_action_just_released("mouse_left"):
+	if Input.is_action_just_released("MOUSE_LEFT"):
 		_pressed = false
 		
 	_just_pressed = false
@@ -84,7 +136,7 @@ func update() -> void:
 	if GlobalVars.button_press_detected:
 		return
 		
-	if Input.is_action_just_pressed("mouse_left"):
+	if Input.is_action_just_pressed("MOUSE_LEFT"):
 		var mouse_pos: Vector2 = get_global_mouse_position()
 		if mouse_pos.x >= self.position.x and mouse_pos.y >= self.position.y \
 		and mouse_pos.x <= self.position.x + _w * _scale.get_var() \
@@ -97,3 +149,5 @@ func update() -> void:
 			else:
 				_just_clicked_at = Time.get_ticks_msec()
 			GlobalVars.button_press_detected = true
+			
+	queue_redraw()

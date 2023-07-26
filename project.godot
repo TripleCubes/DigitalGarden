@@ -21,6 +21,8 @@ GlobalVars="*res://Scripts/Singletons/global_vars.gd"
 WindowOrderedUpdater="*res://Scripts/Singletons/window_ordered_updater.gd"
 GlobalFunctions="*res://Scripts/Singletons/global_functions.gd"
 SmoothVarUpdater="*res://Scripts/Singletons/smooth_var_updater.gd"
+ShowAllWindows="*res://Scripts/Apps/show_all_windows.gd"
+AppNames="*res://Scripts/Apps/app_names.gd"
 
 [display]
 
@@ -29,7 +31,7 @@ window/size/viewport_height=500
 
 [input]
 
-mouse_left={
+MOUSE_LEFT={
 "deadzone": 0.5,
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"pressed":false,"double_click":false,"script":null)
 ]
@@ -47,6 +49,16 @@ KEY_2={
 KEY_3={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":51,"key_label":0,"unicode":51,"echo":false,"script":null)
+]
+}
+SCROLL_UP={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":4,"pressed":false,"double_click":false,"script":null)
+]
+}
+SCROLL_DOWN={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":5,"pressed":false,"double_click":false,"script":null)
 ]
 }
 

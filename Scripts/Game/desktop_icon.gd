@@ -7,12 +7,16 @@ func _init(x: float, y: float, init_scale: float, icon_function: Callable, textu
 	_icon_function = icon_function
 	_button = Game_Button.new(x, y, ICON_WIDTH, ICON_WIDTH, init_scale, texture)
 	add_child(_button)
+	_button.show_button()
 	
 func smooth_move(x: float, y: float) -> void:
 	_button.smooth_move(x, y)
 	
 func smooth_scale(in_scale: float) -> void:
 	_button.smooth_scale(in_scale)
+	
+func get_destination() -> Vector2:
+	return _button.get_button_destination()
 
 @onready var _desktop_icon_list = get_node("/root/Main/Desktop")
 
@@ -24,7 +28,7 @@ var _previous_pos: Vector2
 var _previous_mouse_pos: Vector2
 
 func _window_ordered_update(_delta) -> void:
-	_button.update()
+	_button.update(_delta)
 	
 	var mouse_pos: = get_global_mouse_position()
 	
