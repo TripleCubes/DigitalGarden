@@ -1,12 +1,12 @@
 class_name Game_DesktopIcon
 extends Node2D
 
-const ICON_WIDTH: float = 40
+const ICON_WIDTH: float = 20
 
-func _init(app_name: int, x: float, y: float, init_scale: float, icon_function: Callable, texture: Texture2D = null):
+func _init(app_name: int, x: float, y: float, icon_function: Callable, texture: Texture2D = null):
 	_app_name = app_name
 	_icon_function = icon_function
-	_button = Game_Button.new(x, y, ICON_WIDTH, ICON_WIDTH, init_scale, Color(1, 1, 1, 1), texture)
+	_button = Game_Button.new(x, y, ICON_WIDTH, ICON_WIDTH, GlobalConsts.ICON_DEFAULT_SCALE, Color(1, 1, 1, 1), texture)
 	add_child(_button)
 	_button.show_button()
 	
