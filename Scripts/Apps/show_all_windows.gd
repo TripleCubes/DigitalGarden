@@ -6,6 +6,7 @@ const LINE_SEPARATION: float = 20
 const PADDING_BOTTOM: float = 40
 
 const PADDING_LEFT: float = 80
+const ICON_PADDING_LEFT: float = 30
 const PADDING_RIGHT: float = 30
 const SPACE_WIDTH: float = 10
 
@@ -35,9 +36,6 @@ var _previous_desktop_icon_pos_list: = []
 
 var _organized_window_list: = []
 
-var _cursor_y: float = 0
-var _cursor_x: float = 0
-
 var _app_opening: bool = false
 
 func _close_app() -> void:
@@ -60,40 +58,46 @@ func update(delta) -> void:
 	GlobalVars.button_press_detected = true	
 	
 func _ready():
-	_organized_window_list.clear()
 	for i in AppNames.NUMBER_OF_NAMES:
 		_organized_window_list.append([])
 		
 	get_node("/root/Main").add_child(_scroll_bar)
 	
 func _set_windows_position(scrolling: float, smooth_move: bool) -> float:
-	_cursor_y = PADDING_TOP + scrolling
-	_cursor_x = PADDING_LEFT
+	var cursor_y: float = PADDING_TOP + scrolling
+	var cursor_x: float = PADDING_LEFT
 	var max_window_height: float = 0
 	
-	for app_group in _organized_window_list:
-		max_window_height = 0
+	for app_name in _organized_window_list.size():
+		var app_group: Array = _organized_window_list[app_name]
+		max_window_height = 50
+		
+		if smooth_move:
+			_get_desktop_icon_by_app_name(app_name).smooth_move(ICON_PADDING_LEFT, cursor_y)
+		else:
+			_get_desktop_icon_by_app_name(app_name).set_pos(ICON_PADDING_LEFT, cursor_y)
+		
 		for window in app_group:
 			var window_size = window.get_size()
-			if _cursor_x + window_size.x > 800 - PADDING_RIGHT:
-				_cursor_x = PADDING_LEFT
-				_cursor_y += max_window_height + LINE_SEPARATION
+			if cursor_x + window_size.x > 800 - PADDING_RIGHT:
+				cursor_x = PADDING_LEFT
+				cursor_y += max_window_height + LINE_SEPARATION
 				max_window_height = 0
 				
 			if smooth_move:
-				window.smooth_move(_cursor_x, _cursor_y)
+				window.smooth_move(cursor_x, cursor_y)
 			else:
-				window.set_pos(_cursor_x, _cursor_y)
+				window.set_pos(cursor_x, cursor_y)
 			window.smooth_scale(1)
-			_cursor_x += window_size.x + SPACE_WIDTH
+			cursor_x += window_size.x + SPACE_WIDTH
 			if window_size.y > max_window_height:
 				max_window_height = window_size.y
 			
-		_cursor_x = PADDING_LEFT
-		_cursor_y += max_window_height + GROUP_SEPARATION
+		cursor_x = PADDING_LEFT
+		cursor_y += max_window_height + GROUP_SEPARATION
 	
-	_cursor_y += PADDING_BOTTOM
-	return _cursor_y
+	cursor_y += PADDING_BOTTOM
+	return cursor_y
 	
 func _set_windows_data() -> void:
 	_previous_window_pos_list.clear()
@@ -149,3 +153,14 @@ func _return_windows_to_previous_pos() -> void:
 		var window = _window_list.get_child(i)
 		window.smooth_move(previous_pos.x, previous_pos.y)
 		window.smooth_scale(2)
+		
+	for i in _desktop_icon_list.get_child_count():
+		var previous_pos = _previous_desktop_icon_pos_list[i]
+		var icon = _desktop_icon_list.get_child(i)
+		icon.smooth_move(previous_pos.x, previous_pos.y)
+		
+func _get_desktop_icon_by_app_name(app_name: int) -> Game_DesktopIcon:
+	for icon in _desktop_icon_list.get_children():
+		if icon.get_app_name() == app_name:
+			return icon
+	return null

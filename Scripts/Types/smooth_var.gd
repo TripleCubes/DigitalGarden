@@ -20,6 +20,9 @@ func get_var() -> float:
 func get_destination() -> float:
 	return _destination
 	
+func transitioning() -> bool:
+	return _var != _destination
+	
 func update():
 	var at: float = (Time.get_ticks_msec() - _smooth_transition_start_at) / _smooth_transition_duration
 	

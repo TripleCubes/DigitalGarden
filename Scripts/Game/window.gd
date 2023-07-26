@@ -7,7 +7,7 @@ const WINDOW_MIN_W: float = 60
 const WINDOW_MIN_H: float = 60
 const WINDOW_BAR_H: float = 10
 
-func _init(app_name: int, x: float, y: float, w: float, h: float, init_scale: float, app: Node2D):
+func _init(app_name: int, x: float, y: float, w: float, h: float, init_scale: float):
 	_app_name = app_name
 	self.position.x = x
 	self.position.y = y
@@ -23,8 +23,9 @@ func _init(app_name: int, x: float, y: float, w: float, h: float, init_scale: fl
 	add_child(_close_button)
 	_close_button.show_button()
 	
-	if app != null:
-		add_child(app)
+	if app_name == AppNames.POT:
+		_app = App_Pot.new()
+		add_child(_app)
 	
 func smooth_move(x: float, y: float) -> void:
 	_x.set_destination(x)

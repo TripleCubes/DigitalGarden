@@ -16,6 +16,9 @@ func get_app_name() -> int:
 func smooth_move(x: float, y: float) -> void:
 	_button.smooth_move(x, y)
 	
+func set_pos(x: float, y: float) -> void:
+	_button.set_button_pos(x, y)
+	
 func smooth_scale(in_scale: float) -> void:
 	_button.smooth_scale(in_scale)
 	
@@ -37,16 +40,16 @@ func update(_delta) -> void:
 	_button.update(_delta)
 	
 	var mouse_pos: = get_global_mouse_position()
-	
-	if _button.just_pressed():
+			
+	if _button.just_pressed() and not _button.transitioning_pos():
 		_previous_pos = _button.get_button_pos()
 		_previous_mouse_pos = mouse_pos
 		_place_icon_on_top()
 		
-	if _button.pressed():
+	if _button.pressed() and not _button.transitioning_pos():
 		_button.set_button_pos(_previous_pos.x + mouse_pos.x - _previous_mouse_pos.x,
 								_previous_pos.y + mouse_pos.y - _previous_mouse_pos.y)
-		
+								
 	if _button.double_clicked():
 		if not _icon_function.is_null():
 			_icon_function.call()

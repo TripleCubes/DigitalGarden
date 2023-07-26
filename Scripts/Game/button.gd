@@ -35,6 +35,9 @@ func smooth_move(x: float, y: float) -> void:
 	_x.set_destination(x)
 	_y.set_destination(y)
 	
+func transitioning_pos() -> bool:
+	return _x.transitioning() or _y.transitioning()
+	
 func smooth_scale(in_scale: float) -> void:
 	_scale.set_destination(in_scale)
 	
