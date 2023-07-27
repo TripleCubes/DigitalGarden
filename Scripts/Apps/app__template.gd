@@ -10,4 +10,6 @@ func draw_app_content() -> void:
 func update(_delta: float) -> void:
 	pass
 	
+#@onready var _window_list: Node2D = get_node("/root/Main/WindowList")
+#const _texture__: Texture2D = preload("res://Assets/Sprites/Apps/")
 var _window: Game_Window

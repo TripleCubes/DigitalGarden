@@ -7,7 +7,9 @@ const WINDOW_BAR_H: float = 10
 func _init(app_name: int):
 	_app_name = app_name
 	
-	var init_x = randf_range(30, 60)
+	_set_up()
+	
+	var init_x = GlobalConsts.WINDOW_WIDTH - _w * GlobalConsts.WINDOW_DEFAULT_SCALE - randf_range(30, 60)
 	var init_y = randf_range(30, 60)
 	self.position.x = init_x
 	self.position.y = init_y
@@ -15,8 +17,6 @@ func _init(app_name: int):
 	_y.set_var(init_y)
 	
 	_scale.set_var(GlobalConsts.WINDOW_DEFAULT_SCALE)
-	
-	_set_up()
 	
 	_close_button = Game_Button.new((_w -  WINDOW_BAR_H - 1) * _scale.get_var(), 1 * _scale.get_var(), 
 										8, 8, _scale.get_var(), 
@@ -60,6 +60,9 @@ func place_window_on_top() -> void:
 	
 func get_app() -> Node2D:
 	return _app
+	
+func just_drag_released() -> bool:
+	return Input.is_action_just_released("MOUSE_LEFT") and _bar_pressed
 
 @onready var _window_list: Node2D = get_node("/root/Main/WindowList")
 const _texture__bar__left: Texture2D = preload("res://Assets/Sprites/UI/ui__window_bar__left.png")

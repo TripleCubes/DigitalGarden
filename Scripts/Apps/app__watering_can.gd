@@ -32,14 +32,10 @@ func _has_water_window_on_top() -> bool:
 		var window_pos = window.get_pos()
 		var self_window_pos = _window.get_pos()
 		if window_pos.y < self_window_pos.y \
-		and _box_collision_x(self_window_pos.x, 60, window_pos.x + 25*_window.get_window_scale(), 60 - 50, _window.get_window_scale()):
+		and GlobalFunctions.box_collision_check(self_window_pos.x, 60, 
+												window_pos.x + 25*_window.get_window_scale(), 60 - 50, 
+												_window.get_window_scale()):
 			return true
 			
 		return false
-	return false
-			
-func _box_collision_x(x1: float, w1: float, x2: float, w2: float, scale: float) -> bool:
-	if (x1 >= x2 and x1 <= x2 + w2*scale) or (x1 + w1*scale >= x2 and x1 + w1*scale <= x2 + w2*scale) \
-	or (x2 >= x1 and x2 <= x1 + w1*scale) or (x2 + w2*scale >= x1 and x2 + w2*scale <= x1 + w1*scale):
-		return true
 	return false
