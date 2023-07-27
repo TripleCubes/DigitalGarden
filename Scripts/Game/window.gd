@@ -46,6 +46,12 @@ func get_destination() -> Vector2:
 func get_size() -> Vector2:
 	return Vector2(_w, _h)
 	
+func get_window_scale() -> float:
+	return _scale.get_var()
+	
+func scale_transitioning() -> bool:
+	return _scale.transitioning()
+	
 func get_app_name() -> int:
 	return _app_name
 	
@@ -130,9 +136,12 @@ func update(delta: float) -> void:
 			
 		if _content_pressed:
 			if GlobalVars.show_debug_informations:
-				print(Vector2(_w, _h))
-				print(get_local_mouse_position())
-				print(get_local_mouse_position() / _scale.get_var())
+				print("----------------------")
+				print("Window size: " + str(_w) + " " + str(_h))
+				var global_mouse_pos = get_local_mouse_position()
+				print("Global mouse pos: " + str(global_mouse_pos.x) + " " + str(global_mouse_pos.y))
+				var local_mouse_pos = get_local_mouse_position()
+				print("Local mouse pos: " + str(local_mouse_pos.x) + " " + str(local_mouse_pos.y))
 			place_window_on_top()
 
 	if _left_border_pressed:
@@ -253,3 +262,14 @@ func _set_up() -> void:
 		_max_w = 60
 		_min_h = 60
 		_max_h = 60
+		
+	elif _app_name == AppNames.VALLEY:
+		_app = App_Valley.new(self)
+		add_child(_app)
+		
+		_w = 200
+		_h = 90
+		_min_w = 200
+		_max_w = 200
+		_min_h = 90
+		_max_h = 90

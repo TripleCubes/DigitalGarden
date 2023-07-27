@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bqirijqvll4v2"
-path="res://.godot/imported/_app__water__water.png-ed7a19e3007b20ff538697b614c33f2a.ctex"
+uid="uid://dmugri4gcpts8"
+path="res://.godot/imported/app__valley__o.png-445b43e331f3d633342287364363e9c1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/Apps/Water/_app__water__water.png"
-dest_files=["res://.godot/imported/_app__water__water.png-ed7a19e3007b20ff538697b614c33f2a.ctex"]
+source_file="res://Assets/Sprites/Apps/Valley/app__valley__o.png"
+dest_files=["res://.godot/imported/app__valley__o.png-445b43e331f3d633342287364363e9c1.ctex"]
 
 [params]
 

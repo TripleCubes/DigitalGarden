@@ -11,4 +11,3 @@ func update(_delta: float) -> void:
 	pass
 	
 var _window: Game_Window
-

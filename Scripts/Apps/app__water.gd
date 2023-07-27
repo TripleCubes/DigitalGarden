@@ -24,9 +24,9 @@ func update(_delta: float) -> void:
 	if _button__get_water.just_pressed():
 		_pouring_water = not _pouring_water
 	
-const _texture__water_dispenser: Texture2D = preload("res://Assets/Sprites/Apps/Water/_app__water__water_dispenser.png")
-const _texture__water: Texture2D = preload("res://Assets/Sprites/Apps/Water/_app__water__water.png")
-const _texture__water__top: Texture2D = preload("res://Assets/Sprites/Apps/Water/_app__water__water__top.png")
+const _texture__water_dispenser: Texture2D = preload("res://Assets/Sprites/Apps/Water/app__water__water_dispenser.png")
+const _texture__water: Texture2D = preload("res://Assets/Sprites/Apps/Water/app__water__water.png")
+const _texture__water__top: Texture2D = preload("res://Assets/Sprites/Apps/Water/app__water__water__top.png")
 var _window: Game_Window
 var _button__get_water: Game_Button
 var _pouring_water: bool = false
