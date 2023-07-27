@@ -1,7 +1,6 @@
 class_name Game_Window
 extends Node2D
 
-const WINDOW_BORDER_WIDTH: float = 1
 const WINDOW_BORDER_PRESS_DETECTION_WIDTH: float = 6
 const WINDOW_BAR_H: float = 10
 
@@ -19,9 +18,9 @@ func _init(app_name: int):
 	
 	_set_up()
 	
-	_close_button = Game_Button.new((_w -  WINDOW_BAR_H) * _scale.get_var(), 1 * _scale.get_var(), 
-										9, 9, _scale.get_var(), 
-										Color(1, 1, 1, 1), _texture__ui__x)
+	_close_button = Game_Button.new((_w -  WINDOW_BAR_H - 1) * _scale.get_var(), 1 * _scale.get_var(), 
+										8, 8, _scale.get_var(), 
+										Color(0, 0, 0, 0))
 	add_child(_close_button)
 	_close_button.show_button()
 	
@@ -54,7 +53,12 @@ func place_window_on_top() -> void:
 	_window_list.move_child(self, _window_list.get_child_count() - 1)
 
 @onready var _window_list: Node2D = get_node("/root/Main/WindowList")
-const _texture__ui__x: Texture2D = preload("res://Assets/Sprites/UI/ui__x.png")
+const _texture__bar__left: Texture2D = preload("res://Assets/Sprites/UI/ui__window_bar__left.png")
+const _texture__bar__right: Texture2D = preload("res://Assets/Sprites/UI/ui__window_bar__right.png")
+const _texture__bar__middle: Texture2D = preload("res://Assets/Sprites/UI/ui__window_bar__middle.png")
+const _texture__window__bottom_left: Texture2D = preload("res://Assets/Sprites/UI/ui__window__bottom_left.png")
+const _texture__window__bottom_right: Texture2D = preload("res://Assets/Sprites/UI/ui__window__bottom_right.png")
+const _texture__one_pixel: Texture2D = preload("res://Assets/Sprites/UI/ui__one_pixel.png")
 
 var _app_name: int = AppNames.NOT_SET
 
@@ -88,15 +92,24 @@ var _close_button: Game_Button
 func _draw():
 	draw_set_transform(Vector2(0, 0), 0, Vector2(_scale.get_var(), _scale.get_var()))
 
-	draw_rect(Rect2(WINDOW_BORDER_WIDTH/2, WINDOW_BAR_H,
-					_w - WINDOW_BORDER_WIDTH/2, 
-					_h - WINDOW_BAR_H),
-					Color(0.79, 0.79, 0.79, 1))
-	draw_rect(Rect2(0, 0, _w, WINDOW_BAR_H), Color(1, 1, 1, 1))
-	draw_rect(Rect2(WINDOW_BORDER_WIDTH/2, WINDOW_BAR_H, 
-					_w - WINDOW_BORDER_WIDTH, 
-					_h - WINDOW_BAR_H), 
-					Color(1, 1, 1, 1), false, WINDOW_BORDER_WIDTH)
+#	draw_rect(Rect2(WINDOW_BORDER_WIDTH/2, WINDOW_BAR_H,
+#					_w - WINDOW_BORDER_WIDTH/2, 
+#					_h - WINDOW_BAR_H),
+#					Color(0.79, 0.79, 0.79, 1))
+#	draw_rect(Rect2(0, 0, _w, WINDOW_BAR_H), Color(1, 1, 1, 1))
+#	draw_rect(Rect2(WINDOW_BORDER_WIDTH/2, WINDOW_BAR_H, 
+#					_w - WINDOW_BORDER_WIDTH, 
+#					_h - WINDOW_BAR_H), 
+#					Color(1, 1, 1, 1), false, WINDOW_BORDER_WIDTH)
+
+	draw_texture(_texture__bar__left, Vector2(0, 0))
+	draw_texture(_texture__bar__right, Vector2(_w - 13, 0))
+	draw_texture_rect(_texture__bar__middle, Rect2(3, 0, _w - 3 - 13, 10), false)
+	draw_texture(_texture__window__bottom_left, Vector2(0, _h - 3))
+	draw_texture(_texture__window__bottom_right, Vector2(_w - 3, _h - 3))
+	draw_texture_rect(_texture__one_pixel, Rect2(0, 10, 1, _h - 10 - 3), false)
+	draw_texture_rect(_texture__one_pixel, Rect2(_w - 1, 10, 1, _h - 10 - 3), false)
+	draw_texture_rect(_texture__one_pixel, Rect2(3, _h - 1, _w - 3 - 3, 1), false)	
 					
 	if _app != null:
 		_app.draw_app_content()
@@ -188,28 +201,28 @@ func _border_press_check() -> void:
 		var mouse_pos: Vector2 = get_global_mouse_position()
 		if abs(mouse_pos.x - self.position.x) < WINDOW_BORDER_PRESS_DETECTION_WIDTH \
 		and mouse_pos.y >= self.position.y - WINDOW_BORDER_PRESS_DETECTION_WIDTH \
-		and mouse_pos.y <= self.position.y + (_h + WINDOW_BORDER_WIDTH) * _scale.get_var():
+		and mouse_pos.y <= self.position.y + _h * _scale.get_var() + WINDOW_BORDER_PRESS_DETECTION_WIDTH:
 			_left_border_pressed = true
 			GlobalVars.button_press_detected = true
 			border_pressed = true
 		
 		if abs(mouse_pos.y - self.position.y) < WINDOW_BORDER_PRESS_DETECTION_WIDTH \
 		and mouse_pos.x >= self.position.x - WINDOW_BORDER_PRESS_DETECTION_WIDTH \
-		and mouse_pos.x <= self.position.x + (_w + WINDOW_BORDER_WIDTH) * _scale.get_var():
+		and mouse_pos.x <= self.position.x + _w * _scale.get_var() + WINDOW_BORDER_PRESS_DETECTION_WIDTH:
 			_top_border_pressed = true
 			GlobalVars.button_press_detected = true
 			border_pressed = true
 			
 		if abs(mouse_pos.x - (self.position.x + _w * _scale.get_var())) < WINDOW_BORDER_PRESS_DETECTION_WIDTH \
 		and mouse_pos.y >= self.position.y - WINDOW_BORDER_PRESS_DETECTION_WIDTH \
-		and mouse_pos.y <= self.position.y + (_h + WINDOW_BORDER_WIDTH) * _scale.get_var():
+		and mouse_pos.y <= self.position.y + _h * _scale.get_var() + WINDOW_BORDER_PRESS_DETECTION_WIDTH:
 			_right_border_pressed = true
 			GlobalVars.button_press_detected = true
 			border_pressed = true
 			
 		if abs(mouse_pos.y - (self.position.y + _h * _scale.get_var())) < WINDOW_BORDER_PRESS_DETECTION_WIDTH \
 		and mouse_pos.x >= self.position.x - WINDOW_BORDER_PRESS_DETECTION_WIDTH \
-		and mouse_pos.x <= self.position.x + (_w + WINDOW_BORDER_WIDTH) * _scale.get_var():
+		and mouse_pos.x <= self.position.x + _w * _scale.get_var() + WINDOW_BORDER_PRESS_DETECTION_WIDTH:
 			_bottom_border_pressed = true
 			GlobalVars.button_press_detected = true
 			border_pressed = true
