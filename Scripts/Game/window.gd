@@ -255,6 +255,13 @@ func _set_up() -> void:
 		_app = App_Pot.new(self)
 		add_child(_app)
 		
+		_w = 60
+		_h = 80
+		_min_w = 60
+		_max_w = 60
+		_min_h = 80
+		_max_h = 80
+		
 	elif _app_name == AppNames.WATER:
 		_app = App_Water.new(self)
 		add_child(_app)
@@ -279,6 +286,17 @@ func _set_up() -> void:
 		
 	elif _app_name == AppNames.WATERING_CAN:
 		_app = App_WateringCan.new(self)
+		add_child(_app)
+		
+		_w = 60
+		_h = 60
+		_min_w = 60
+		_max_w = 60
+		_min_h = 60
+		_max_h = 60
+		
+	elif _app_name == AppNames.SEED:
+		_app = App_Seed.new(self)
 		add_child(_app)
 		
 		_w = 60

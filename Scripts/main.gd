@@ -16,6 +16,8 @@ func _ready():
 						10, 410)
 	_add_desktop_icon(AppNames.VALLEY, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__valley.png"),
 						110, 10)
+	_add_desktop_icon(AppNames.SEED, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__seed.png"),
+						110, 110)
 
 func _process(_delta):
 	GlobalVars.button_press_detected = false
