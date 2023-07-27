@@ -1,7 +1,7 @@
 class_name Game_Window
 extends Node2D
 
-const WINDOW_BORDER_PRESS_DETECTION_WIDTH: float = 6
+const WINDOW_BORDER_PRESS_DETECTION_WIDTH: float = 4
 const WINDOW_BAR_H: float = 10
 
 func _init(app_name: int):
@@ -57,6 +57,9 @@ func get_app_name() -> int:
 	
 func place_window_on_top() -> void:
 	_window_list.move_child(self, _window_list.get_child_count() - 1)
+	
+func get_app() -> Node2D:
+	return _app
 
 @onready var _window_list: Node2D = get_node("/root/Main/WindowList")
 const _texture__bar__left: Texture2D = preload("res://Assets/Sprites/UI/ui__window_bar__left.png")
@@ -273,3 +276,14 @@ func _set_up() -> void:
 		_max_w = 200
 		_min_h = 90
 		_max_h = 90
+		
+	elif _app_name == AppNames.WATERING_CAN:
+		_app = App_WateringCan.new(self)
+		add_child(_app)
+		
+		_w = 60
+		_h = 60
+		_min_w = 60
+		_max_w = 60
+		_min_h = 60
+		_max_h = 60
