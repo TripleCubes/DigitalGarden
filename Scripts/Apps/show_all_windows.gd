@@ -22,14 +22,14 @@ func open_app() -> void:
 	
 	_set_windows_data()
 	var page_size: = _set_windows_position(0, true)
-	_scroll_bar.set_page_size(page_size, 500)
+	_scroll_bar.set_page_size(page_size, GlobalConsts.WINDOW_HEIGHT)
 		
 	_app_opening = true
 	
 @onready var _window_list: Node2D = get_node("/root/Main/WindowList")
 @onready var _desktop_icon_list: Node2D = get_node("/root/Main/Desktop")
 
-var _scroll_bar: = Game_ScrollBar.new(800, 0, false, 500)
+var _scroll_bar: = Game_ScrollBar.new(GlobalConsts.WINDOW_WIDTH, 0, false, GlobalConsts.WINDOW_HEIGHT)
 
 var _previous_window_pos_list: = []
 var _previous_desktop_icon_pos_list: = []
@@ -79,7 +79,7 @@ func _set_windows_position(scrolling: float, smooth_move: bool) -> float:
 		
 		for window in app_group:
 			var window_size = window.get_size()
-			if cursor_x + window_size.x > 800 - PADDING_RIGHT:
+			if cursor_x + window_size.x > GlobalConsts.WINDOW_WIDTH - PADDING_RIGHT:
 				cursor_x = PADDING_LEFT
 				cursor_y += max_window_height + LINE_SEPARATION
 				max_window_height = 0

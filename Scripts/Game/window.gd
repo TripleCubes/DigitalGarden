@@ -14,7 +14,7 @@ func _init(app_name: int):
 	_x.set_var(init_x)
 	_y.set_var(init_y)
 	
-	_scale.set_var(2)
+	_scale.set_var(GlobalConsts.WINDOW_DEFAULT_SCALE)
 	
 	_set_up()
 	
@@ -58,7 +58,8 @@ const _texture__bar__right: Texture2D = preload("res://Assets/Sprites/UI/ui__win
 const _texture__bar__middle: Texture2D = preload("res://Assets/Sprites/UI/ui__window_bar__middle.png")
 const _texture__window__bottom_left: Texture2D = preload("res://Assets/Sprites/UI/ui__window__bottom_left.png")
 const _texture__window__bottom_right: Texture2D = preload("res://Assets/Sprites/UI/ui__window__bottom_right.png")
-const _texture__one_pixel: Texture2D = preload("res://Assets/Sprites/UI/ui__one_pixel.png")
+const _texture__one_pixel_yellow: Texture2D = preload("res://Assets/Sprites/UI/ui__one_pixel_yellow.png")
+const _texture__one_pixel_brown: Texture2D = preload("res://Assets/Sprites/UI/ui__one_pixel_brown.png")
 
 var _app_name: int = AppNames.NOT_SET
 
@@ -92,24 +93,16 @@ var _close_button: Game_Button
 func _draw():
 	draw_set_transform(Vector2(0, 0), 0, Vector2(_scale.get_var(), _scale.get_var()))
 
-#	draw_rect(Rect2(WINDOW_BORDER_WIDTH/2, WINDOW_BAR_H,
-#					_w - WINDOW_BORDER_WIDTH/2, 
-#					_h - WINDOW_BAR_H),
-#					Color(0.79, 0.79, 0.79, 1))
-#	draw_rect(Rect2(0, 0, _w, WINDOW_BAR_H), Color(1, 1, 1, 1))
-#	draw_rect(Rect2(WINDOW_BORDER_WIDTH/2, WINDOW_BAR_H, 
-#					_w - WINDOW_BORDER_WIDTH, 
-#					_h - WINDOW_BAR_H), 
-#					Color(1, 1, 1, 1), false, WINDOW_BORDER_WIDTH)
-
 	draw_texture(_texture__bar__left, Vector2(0, 0))
 	draw_texture(_texture__bar__right, Vector2(_w - 13, 0))
 	draw_texture_rect(_texture__bar__middle, Rect2(3, 0, _w - 3 - 13, 10), false)
 	draw_texture(_texture__window__bottom_left, Vector2(0, _h - 3))
 	draw_texture(_texture__window__bottom_right, Vector2(_w - 3, _h - 3))
-	draw_texture_rect(_texture__one_pixel, Rect2(0, 10, 1, _h - 10 - 3), false)
-	draw_texture_rect(_texture__one_pixel, Rect2(_w - 1, 10, 1, _h - 10 - 3), false)
-	draw_texture_rect(_texture__one_pixel, Rect2(3, _h - 1, _w - 3 - 3, 1), false)	
+	draw_texture_rect(_texture__one_pixel_yellow, Rect2(0, 10, 1, _h - 10 - 3), false)
+	draw_texture_rect(_texture__one_pixel_yellow, Rect2(_w - 1, 10, 1, _h - 10 - 3), false)
+	draw_texture_rect(_texture__one_pixel_yellow, Rect2(3, _h - 1, _w - 3 - 3, 1), false)
+	draw_texture_rect(_texture__one_pixel_brown, Rect2(1, 10, _w - 2, _h - 10 - 3), false)
+	draw_texture_rect(_texture__one_pixel_brown, Rect2(3, _h - 3, _w - 6, 2), false)	
 					
 	if _app != null:
 		_app.draw_app_content()
@@ -138,6 +131,8 @@ func update(delta: float) -> void:
 		if _content_pressed:
 			if GlobalVars.show_debug_informations:
 				print(Vector2(_w, _h))
+				print(get_local_mouse_position())
+				print(get_local_mouse_position() / _scale.get_var())
 			place_window_on_top()
 
 	if _left_border_pressed:
