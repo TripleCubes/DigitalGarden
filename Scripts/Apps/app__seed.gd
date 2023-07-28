@@ -21,6 +21,9 @@ func update(_delta: float) -> void:
 	for window in _window_list.get_children():
 		if window.get_app_name() != AppNames.POT:
 			continue
+			
+		if window.get_app().has_seed:
+			continue
 		
 		if GlobalFunctions.overllap(window, _window):
 			window.get_app().put_seed()
