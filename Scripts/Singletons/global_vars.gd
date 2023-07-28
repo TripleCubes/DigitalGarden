@@ -12,4 +12,6 @@ enum CursorShape {
 }
 var decided_cursor_shape: CursorShape = CursorShape.POINTER
 
+var valley_icon: Game_DesktopIcon
+
 var show_debug_informations: bool = false

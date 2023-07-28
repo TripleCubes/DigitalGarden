@@ -19,6 +19,9 @@ func smooth_move(x: float, y: float) -> void:
 func set_pos(x: float, y: float) -> void:
 	_button.set_button_pos(x, y)
 	
+func get_pos() -> Vector2:
+	return _button.get_button_pos()
+	
 func smooth_scale(in_scale: float) -> void:
 	_button.smooth_scale(in_scale)
 	
