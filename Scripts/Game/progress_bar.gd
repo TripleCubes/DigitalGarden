@@ -7,14 +7,26 @@ func _init(x: float, y: float, w: float, scale_ref: SmoothVar):
 	_w = w
 	_scale_ref = scale_ref
 	
+var progress: float = 0
+var fill_time_sec: float = 10
+var reverse_fill_time_sec: float = 10
+var paused: bool = true
+var reversed: bool = false
+var progress_bar_visible = false
+	
 func update(_delta) -> void:
 	if not progress_bar_visible:
 		return
 		
 	if not paused:
-		progress += _delta / fill_time_sec
-		if progress > 1:
-			progress = 1
+		if not reversed:
+			progress += _delta / fill_time_sec
+			if progress > 1:
+				progress = 1
+		else:
+			progress -= _delta / reverse_fill_time_sec
+			if progress < 0:
+				progress = 0
 	
 	queue_redraw()
 	
@@ -28,11 +40,6 @@ var _y: float = 0
 var _w: float = 0
 var color: = Color(1, 1, 1, 1)
 var _scale_ref: SmoothVar
-
-var progress: float = 0
-var fill_time_sec: float = 10
-var paused: bool = true
-var progress_bar_visible = false
 
 func _draw():
 	if not progress_bar_visible:
