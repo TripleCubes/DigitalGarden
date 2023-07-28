@@ -6,6 +6,7 @@ extends Node
 func _process(delta):
 	ShowAllWindows.update(delta)
 	
+	GlobalVars.decided_cursor_shape = GlobalVars.CursorShape.POINTER
 	for i in range(window_list.get_child_count() - 1, -1, -1):
 		window_list.get_child(i).update(delta)
 		

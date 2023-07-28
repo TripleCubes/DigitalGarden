@@ -84,6 +84,12 @@ var _bottom_border_pressed: bool = false
 var _bar_pressed: bool = false
 var _content_pressed: bool = false
 
+var _left_border_hovered: bool = false
+var _top_border_hovered: bool = false
+var _right_border_hovered: bool = false
+var _bottom_border_hovered: bool = false
+var _window_hovered: bool = false
+
 var _x: = SmoothVar.new(0)
 var _y: = SmoothVar.new(0)
 var _w: float = 100
@@ -127,6 +133,7 @@ func update(delta: float) -> void:
 	if _app != null:
 		_app.update(delta)
 	
+	_hover_check()
 	_border_press_check()
 	var mouse_pos: Vector2 = get_viewport().get_mouse_position()
 	
@@ -191,7 +198,54 @@ func update(delta: float) -> void:
 	self.position.y = _y.get_var()
 		
 	_close_button.redraw()
+	
+	_change_cursor_shape()
+	
 	queue_redraw()
+	
+func _hover_check() -> void:
+	_window_hovered = false
+	_left_border_hovered = false
+	_top_border_hovered = false
+	_right_border_hovered = false
+	_bottom_border_hovered = false
+	
+	if GlobalVars.window_hover_detected:
+		return
+	
+	var mouse_pos: Vector2 = get_global_mouse_position()
+	
+	if mouse_pos.x > self.position.x and mouse_pos.y > self.position.y \
+	and mouse_pos.x < self.position.x + _w * _scale.get_var() \
+	and mouse_pos.y < self.position.y + _h * _scale.get_var():
+		_window_hovered = true
+	
+	if abs(mouse_pos.x - self.position.x) < WINDOW_BORDER_PRESS_DETECTION_WIDTH \
+	and mouse_pos.y >= self.position.y - WINDOW_BORDER_PRESS_DETECTION_WIDTH \
+	and mouse_pos.y <= self.position.y + _h * _scale.get_var() + WINDOW_BORDER_PRESS_DETECTION_WIDTH:
+		_left_border_hovered = true
+		_window_hovered = true
+	
+	if abs(mouse_pos.y - self.position.y) < WINDOW_BORDER_PRESS_DETECTION_WIDTH \
+	and mouse_pos.x >= self.position.x - WINDOW_BORDER_PRESS_DETECTION_WIDTH \
+	and mouse_pos.x <= self.position.x + _w * _scale.get_var() + WINDOW_BORDER_PRESS_DETECTION_WIDTH:
+		_top_border_hovered = true
+		_window_hovered = true
+		
+	if abs(mouse_pos.x - (self.position.x + _w * _scale.get_var())) < WINDOW_BORDER_PRESS_DETECTION_WIDTH \
+	and mouse_pos.y >= self.position.y - WINDOW_BORDER_PRESS_DETECTION_WIDTH \
+	and mouse_pos.y <= self.position.y + _h * _scale.get_var() + WINDOW_BORDER_PRESS_DETECTION_WIDTH:
+		_right_border_hovered = true
+		_window_hovered = true
+		
+	if abs(mouse_pos.y - (self.position.y + _h * _scale.get_var())) < WINDOW_BORDER_PRESS_DETECTION_WIDTH \
+	and mouse_pos.x >= self.position.x - WINDOW_BORDER_PRESS_DETECTION_WIDTH \
+	and mouse_pos.x <= self.position.x + _w * _scale.get_var() + WINDOW_BORDER_PRESS_DETECTION_WIDTH:
+		_bottom_border_hovered = true
+		_window_hovered = true
+		
+	if _window_hovered:
+		GlobalVars.window_hover_detected = true
 		
 func _border_press_check() -> void:
 	if Input.is_action_just_released("MOUSE_LEFT"):
@@ -209,30 +263,22 @@ func _border_press_check() -> void:
 		
 	if Input.is_action_just_pressed("MOUSE_LEFT"):
 		var mouse_pos: Vector2 = get_global_mouse_position()
-		if abs(mouse_pos.x - self.position.x) < WINDOW_BORDER_PRESS_DETECTION_WIDTH \
-		and mouse_pos.y >= self.position.y - WINDOW_BORDER_PRESS_DETECTION_WIDTH \
-		and mouse_pos.y <= self.position.y + _h * _scale.get_var() + WINDOW_BORDER_PRESS_DETECTION_WIDTH:
+		if _left_border_hovered:
 			_left_border_pressed = true
 			GlobalVars.button_press_detected = true
 			border_pressed = true
 		
-		if abs(mouse_pos.y - self.position.y) < WINDOW_BORDER_PRESS_DETECTION_WIDTH \
-		and mouse_pos.x >= self.position.x - WINDOW_BORDER_PRESS_DETECTION_WIDTH \
-		and mouse_pos.x <= self.position.x + _w * _scale.get_var() + WINDOW_BORDER_PRESS_DETECTION_WIDTH:
+		if _top_border_hovered:
 			_top_border_pressed = true
 			GlobalVars.button_press_detected = true
 			border_pressed = true
 			
-		if abs(mouse_pos.x - (self.position.x + _w * _scale.get_var())) < WINDOW_BORDER_PRESS_DETECTION_WIDTH \
-		and mouse_pos.y >= self.position.y - WINDOW_BORDER_PRESS_DETECTION_WIDTH \
-		and mouse_pos.y <= self.position.y + _h * _scale.get_var() + WINDOW_BORDER_PRESS_DETECTION_WIDTH:
+		if _right_border_hovered:
 			_right_border_pressed = true
 			GlobalVars.button_press_detected = true
 			border_pressed = true
 			
-		if abs(mouse_pos.y - (self.position.y + _h * _scale.get_var())) < WINDOW_BORDER_PRESS_DETECTION_WIDTH \
-		and mouse_pos.x >= self.position.x - WINDOW_BORDER_PRESS_DETECTION_WIDTH \
-		and mouse_pos.x <= self.position.x + _w * _scale.get_var() + WINDOW_BORDER_PRESS_DETECTION_WIDTH:
+		if _bottom_border_hovered:
 			_bottom_border_pressed = true
 			GlobalVars.button_press_detected = true
 			border_pressed = true
@@ -308,3 +354,28 @@ func _set_up() -> void:
 		_max_w = 60
 		_min_h = 60
 		_max_h = 60
+		
+func _change_cursor_shape() -> void:
+	if not _window_hovered:
+		return
+		
+	if _min_w != _max_w and _min_h != _max_h:
+		if (_left_border_hovered and _top_border_hovered) \
+		or (_right_border_hovered and _bottom_border_hovered):
+			GlobalVars.decided_cursor_shape = GlobalVars.CursorShape.DOWNWARD_DIAGONAL
+			return
+
+		if (_right_border_hovered and _top_border_hovered) \
+		or (_left_border_hovered and _bottom_border_hovered):
+			GlobalVars.decided_cursor_shape = GlobalVars.CursorShape.FORWARD_DIAGONAL		
+			return
+
+	if _min_h != _max_h and (_top_border_hovered or _bottom_border_hovered):
+		GlobalVars.decided_cursor_shape = GlobalVars.CursorShape.TOP_DOWN		
+		return
+
+	if _min_w != _max_w and (_left_border_hovered or _right_border_hovered):
+		GlobalVars.decided_cursor_shape = GlobalVars.CursorShape.LEFT_RIGHT		
+		return
+		
+	GlobalVars.decided_cursor_shape = GlobalVars.CursorShape.POINTER
