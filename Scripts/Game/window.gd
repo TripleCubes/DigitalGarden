@@ -305,11 +305,11 @@ func _set_up() -> void:
 		add_child(_app)
 		
 		_w = 60
-		_h = 80
+		_h = 100
 		_min_w = 60
 		_max_w = 60
-		_min_h = 80
-		_max_h = 80
+		_min_h = 100
+		_max_h = 100
 		
 	elif _app_name == AppNames.WATER:
 		_app = App_Water.new(self)
@@ -356,6 +356,9 @@ func _set_up() -> void:
 		_max_h = 60
 		
 func _change_cursor_shape() -> void:
+	if ShowAllWindows._app_opening:
+		return
+		
 	if not _window_hovered:
 		return
 		

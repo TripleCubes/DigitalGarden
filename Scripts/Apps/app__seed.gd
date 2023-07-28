@@ -16,7 +16,7 @@ func update(_delta: float) -> void:
 			continue
 		
 		if GlobalFunctions.overllap(window, _window):
-			window.get_app().has_seed = true
+			window.get_app().put_seed()
 			_window.queue_free()
 	
 @onready var _window_list: Node2D = get_node("/root/Main/WindowList")

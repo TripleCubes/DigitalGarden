@@ -1,6 +1,7 @@
 extends Node
 
 @onready var desktop_icon_list = get_node("/root/Main/Desktop")
+@onready var _window_list: Node2D = get_node("/root/Main/WindowList")
 		
 func ease_in_out(num: float) -> float:
 	return -(cos(PI * num) - 1) / 2;
@@ -20,3 +21,22 @@ func overllap(window1: Game_Window, window2: Game_Window) -> bool:
 	
 	return box_collision_check(window1_pos.x, window1_size.x, window2_pos.x, window2_size.x, window1_scale) \
 	and box_collision_check(window1_pos.y, window1_size.y, window2_pos.y, window2_size.y, window1_scale)
+	
+func has_water_window_on_top(_window: Game_Window) -> bool:
+	for window in _window_list.get_children():
+		if window.get_app_name() != AppNames.WATER:
+			continue
+			
+		if not window.get_app().pouring_water:
+			return false
+			
+		var window_pos = window.get_pos()
+		var self_window_pos = _window.get_pos()
+		if window_pos.y < self_window_pos.y \
+		and GlobalFunctions.box_collision_check(self_window_pos.x, 60, 
+												window_pos.x + 25*_window.get_window_scale(), 60 - 50, 
+												_window.get_window_scale()):
+			return true
+			
+		return false
+	return false

@@ -11,8 +11,21 @@ func draw_app_content() -> void:
 		_window.draw_texture(_texture__watering_can__filled, Vector2(5, 10))
 	
 func update(_delta: float) -> void:
-	if _has_water_window_on_top():
+	if GlobalFunctions.has_water_window_on_top(_window):
 		filled = true
+		
+		
+		
+	if not _window.just_drag_released():
+		return
+		
+	for window in _window_list.get_children():
+		if window.get_app_name() != AppNames.POT:
+			continue
+		
+		if GlobalFunctions.overllap(window, _window):
+			window.get_app().put_water()
+			filled = false
 	
 @onready var _window_list: Node2D = get_node("/root/Main/WindowList")
 const _texture__watering_can: Texture2D = preload("res://Assets/Sprites/Apps/WateringCan/app__watering_can__watering_can.png")
@@ -20,22 +33,3 @@ const _texture__watering_can__filled: Texture2D = preload("res://Assets/Sprites/
 
 var _window: Game_Window
 var filled: bool = false
-
-func _has_water_window_on_top() -> bool:
-	for window in _window_list.get_children():
-		if window.get_app_name() != AppNames.WATER:
-			continue
-			
-		if not window.get_app().pouring_water:
-			return false
-			
-		var window_pos = window.get_pos()
-		var self_window_pos = _window.get_pos()
-		if window_pos.y < self_window_pos.y \
-		and GlobalFunctions.box_collision_check(self_window_pos.x, 60, 
-												window_pos.x + 25*_window.get_window_scale(), 60 - 50, 
-												_window.get_window_scale()):
-			return true
-			
-		return false
-	return false
