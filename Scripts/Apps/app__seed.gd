@@ -4,6 +4,13 @@ extends Node2D
 func _init(window: Game_Window):
 	_window = window
 	
+	_window._w = 60
+	_window._h = 60
+	_window._min_w = 60
+	_window._max_w = 60
+	_window._min_h = 60
+	_window._max_h = 60
+	
 func draw_app_content() -> void:
 	_window.draw_texture(_texture__seed__seed_packet, Vector2(5, 10))
 	

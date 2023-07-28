@@ -6,6 +6,13 @@ const WATER_REQUEST_TIME: float = 15
 func _init(window: Game_Window):
 	_window = window
 	
+	_window._w = 60
+	_window._h = 100
+	_window._min_w = 60
+	_window._max_w = 60
+	_window._min_h = 100
+	_window._max_h = 100
+	
 	_progress_bar = Game_ProgressBar.new(5, 15, 50, _window._scale)
 	add_child(_progress_bar)
 	

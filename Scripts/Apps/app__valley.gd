@@ -4,6 +4,13 @@ extends Node2D
 func _init(window: Game_Window):
 	_window = window
 	
+	_window._w = 200
+	_window._h = 90
+	_window._min_w = 200
+	_window._max_w = 200
+	_window._min_h = 90
+	_window._max_h = 90
+	
 	_text_box = RichTextLabel.new()
 	_text_box.theme = _font_theme
 	_text_box.scroll_active = false

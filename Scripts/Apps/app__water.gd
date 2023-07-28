@@ -4,6 +4,13 @@ extends Node2D
 func _init(window: Game_Window):
 	_window = window
 	
+	_window._w = 60
+	_window._h = 60
+	_window._min_w = 60
+	_window._max_w = 60
+	_window._min_h = 60
+	_window._max_h = 60
+	
 	_button__get_water = Game_Button.new(36, 40, 12, 12, 
 											GlobalConsts.WINDOW_DEFAULT_SCALE, Color(0, 0, 0, 0))
 	add_child(_button__get_water)

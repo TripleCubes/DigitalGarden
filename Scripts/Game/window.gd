@@ -304,56 +304,21 @@ func _set_up() -> void:
 		_app = App_Pot.new(self)
 		add_child(_app)
 		
-		_w = 60
-		_h = 100
-		_min_w = 60
-		_max_w = 60
-		_min_h = 100
-		_max_h = 100
-		
 	elif _app_name == AppNames.WATER:
 		_app = App_Water.new(self)
 		add_child(_app)
-		
-		_w = 60
-		_h = 60
-		_min_w = 60
-		_max_w = 60
-		_min_h = 60
-		_max_h = 60
 		
 	elif _app_name == AppNames.VALLEY:
 		_app = App_Valley.new(self)
 		add_child(_app)
 		
-		_w = 200
-		_h = 90
-		_min_w = 200
-		_max_w = 200
-		_min_h = 90
-		_max_h = 90
-		
 	elif _app_name == AppNames.WATERING_CAN:
 		_app = App_WateringCan.new(self)
 		add_child(_app)
 		
-		_w = 60
-		_h = 60
-		_min_w = 60
-		_max_w = 60
-		_min_h = 60
-		_max_h = 60
-		
 	elif _app_name == AppNames.SEED:
 		_app = App_Seed.new(self)
 		add_child(_app)
-		
-		_w = 60
-		_h = 60
-		_min_w = 60
-		_max_w = 60
-		_min_h = 60
-		_max_h = 60
 		
 func _change_cursor_shape() -> void:
 	if ShowAllWindows._app_opening:
