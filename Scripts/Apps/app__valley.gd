@@ -24,13 +24,14 @@ func _init(window: Game_Window):
 	_text_box.scale = Vector2(2, 2)
 	add_child(_text_box)
 	
-	_text_bubble = Game_TextBubble.new(150, 150, Game_Bubble.PointyDir.TOP_LEFT, _window._scale)
-	GlobalVars.valley_icon.add_child(_text_bubble)
-	
 func draw_app_content() -> void:
 	_window.draw_texture(_texture__valley_o, Vector2(5, 15))
 	
 func update(_delta: float) -> void:
+	if _text_bubble == null:
+		_text_bubble = Game_TextBubble.new(150, 150, Game_Bubble.PointyDir.TOP_LEFT, _window._scale)
+		GlobalVars.valley_icon.add_child(_text_bubble)
+	
 	if _window.scale_transitioning():
 		var window_scale = _window.get_window_scale()
 		_text_box.scale = Vector2(window_scale, window_scale)
@@ -47,4 +48,4 @@ var _font_theme: Theme = preload("res://Assets/Fonts/font.tres")
 var _text_box: RichTextLabel
 var _window: Game_Window
 
-var _text_bubble: Game_TextBubble
+var _text_bubble: Game_TextBubble = null

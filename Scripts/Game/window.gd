@@ -65,6 +65,7 @@ func just_drag_released() -> bool:
 	return Input.is_action_just_released("MOUSE_LEFT") and _bar_pressed
 
 @onready var _window_list: Node2D = get_node("/root/Main/WindowList")
+@onready var _hidden_window_list: Node2D = get_node("/root/Main/HiddenWindowList")
 const _texture__bar__left: Texture2D = preload("res://Assets/Sprites/UI/ui__window_bar__left.png")
 const _texture__bar__right: Texture2D = preload("res://Assets/Sprites/UI/ui__window_bar__right.png")
 const _texture__bar__middle: Texture2D = preload("res://Assets/Sprites/UI/ui__window_bar__middle.png")
@@ -127,8 +128,12 @@ func _draw():
 	
 func update(delta: float) -> void:
 	_close_button.update(delta)
-	if _close_button.pressed():
-		queue_free()
+	if _close_button.just_pressed():
+		if AppNames.single_window_list[_app_name]:
+			_window_list.remove_child(self)
+			_hidden_window_list.add_child(self)
+		else:
+			queue_free()
 		
 	if _app != null:
 		_app.update(delta)

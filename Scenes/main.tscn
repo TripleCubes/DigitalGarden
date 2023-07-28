@@ -10,3 +10,6 @@ texture_filter = 1
 
 [node name="WindowList" type="Node2D" parent="."]
 texture_filter = 1
+
+[node name="HiddenWindowList" type="Node2D" parent="."]
+visible = false

@@ -13,3 +13,12 @@ const TREE:				int = 9
 const SHIP:				int = 10
 
 const NUMBER_OF_NAMES: 	int = 7
+
+var single_window_list: = []
+
+func _ready():
+	single_window_list.resize(NUMBER_OF_NAMES)
+	single_window_list.fill(false)
+	single_window_list[VALLEY] = true
+	single_window_list[WATER] = true
+	single_window_list[GARDEN] = true

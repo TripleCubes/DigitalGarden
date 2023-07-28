@@ -29,6 +29,8 @@ func get_destination() -> Vector2:
 	return _button.get_button_destination()
 
 @onready var _desktop_icon_list = get_node("/root/Main/Desktop")
+@onready var _window_list: Node2D = get_node("/root/Main/WindowList")
+@onready var _hidden_window_list: Node2D = get_node("/root/Main/HiddenWindowList")
 
 @onready var _button: Game_Button
 
@@ -38,6 +40,8 @@ var _icon_function: Callable
 
 var _previous_pos: Vector2
 var _previous_mouse_pos: Vector2
+
+var owned_window: Game_Window
 
 func update(_delta) -> void:
 	_button.update(_delta)
@@ -54,6 +58,15 @@ func update(_delta) -> void:
 								_previous_pos.y + mouse_pos.y - _previous_mouse_pos.y)
 								
 	if _button.double_clicked():
+		if AppNames.single_window_list[_app_name]:
+			if owned_window.get_parent() == null:
+				_window_list.add_child(owned_window)
+			elif owned_window.get_parent() == _hidden_window_list:
+				_hidden_window_list.remove_child(owned_window)
+				_window_list.add_child(owned_window)
+			else:
+				owned_window.place_window_on_top()
+			
 		if not _icon_function.is_null():
 			_icon_function.call()
 		else:
