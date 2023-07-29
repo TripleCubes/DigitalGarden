@@ -1,7 +1,7 @@
 class_name App_Pot
 extends Node2D
 
-const WATER_REQUEST_TIME: float = 15
+const WATER_REQUEST_TIME: float = 25
 
 func _init(window: Game_Window):
 	_window = window

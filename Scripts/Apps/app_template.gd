@@ -4,6 +4,13 @@ extends Node2D
 func _init(window: Game_Window):
 	_window = window
 	
+#	_window._w = 
+#	_window._h = 
+#	_window._min_w = 
+#	_window._max_w = 
+#	_window._min_h = 
+#	_window._max_h = 
+	
 func draw_app_content() -> void:
 	pass
 	

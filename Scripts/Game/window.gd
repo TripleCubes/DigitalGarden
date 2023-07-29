@@ -4,13 +4,19 @@ extends Node2D
 const WINDOW_BORDER_PRESS_DETECTION_WIDTH: float = 4
 const WINDOW_BAR_H: float = 10
 
-func _init(app_name: int):
+func _init(app_name: int, x: float = 0, y: float = 0):
 	_app_name = app_name
 	
 	_set_up()
 	
-	var init_x = GlobalConsts.WINDOW_WIDTH - _w * GlobalConsts.WINDOW_DEFAULT_SCALE - randf_range(30, 60)
-	var init_y = randf_range(30, 60)
+	var init_x: float = 0
+	var init_y: float = 0
+	if x != 0 or y != 0:
+		init_x = x
+		init_y = y
+	else:
+		init_x = GlobalConsts.WINDOW_WIDTH - _w * GlobalConsts.WINDOW_DEFAULT_SCALE - randf_range(30, 60)
+		init_y = randf_range(30, 60)
 	self.position.x = init_x
 	self.position.y = init_y
 	_x.set_var(init_x)
@@ -84,6 +90,8 @@ var _right_border_pressed: bool = false
 var _bottom_border_pressed: bool = false
 var _bar_pressed: bool = false
 var _content_pressed: bool = false
+
+var bar_released_at: float = 0
 
 var _left_border_hovered: bool = false
 var _top_border_hovered: bool = false
@@ -254,6 +262,8 @@ func _hover_check() -> void:
 		
 func _border_press_check() -> void:
 	if Input.is_action_just_released("MOUSE_LEFT"):
+		if _bar_pressed:
+			bar_released_at = Time.get_ticks_msec()
 		_top_border_pressed = false
 		_left_border_pressed = false
 		_right_border_pressed = false
@@ -323,6 +333,10 @@ func _set_up() -> void:
 		
 	elif _app_name == AppNames.SEED:
 		_app = App_Seed.new(self)
+		add_child(_app)
+		
+	elif _app_name == AppNames.GARDEN:
+		_app = App_Garden.new(self)
 		add_child(_app)
 		
 func _change_cursor_shape() -> void:

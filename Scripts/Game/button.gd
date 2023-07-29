@@ -3,8 +3,8 @@ extends Node2D
 
 const DOUBLE_CLICK_TIME = 600
 
-func _init(x: float, y: float, w: float, h: float, init_scale: float, color: 
-			Color = Color(1, 1, 1, 1), texture: Texture2D = null):
+func _init(x: float, y: float, w: float, h: float, init_scale: float, 
+				color: Color = Color(1, 1, 1, 1), texture: Texture2D = null):
 	self.position.x = x
 	self.position.y = y
 	_x.set_var(x)

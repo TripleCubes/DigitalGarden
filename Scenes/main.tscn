@@ -12,4 +12,4 @@ texture_filter = 1
 texture_filter = 1
 
 [node name="HiddenWindowList" type="Node2D" parent="."]
-visible = false
+position = Vector2(2640, 1632)
