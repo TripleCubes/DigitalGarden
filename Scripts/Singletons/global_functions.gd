@@ -2,6 +2,7 @@ extends Node
 
 @onready var desktop_icon_list = get_node("/root/Main/Desktop")
 @onready var _window_list: Node2D = get_node("/root/Main/WindowList")
+var _font_theme: Theme = preload("res://Assets/Fonts/font.tres")
 		
 func ease_in_out(num: float) -> float:
 	return -(cos(PI * num) - 1) / 2;
@@ -40,3 +41,13 @@ func has_water_window_on_top(_window: Game_Window) -> bool:
 			
 		return false
 	return false
+	
+func setup_label(label: RichTextLabel, x: float, y: float, init_text: String = "") -> void:
+	label.theme = _font_theme
+	label.scroll_active = false
+	label.position.x = x
+	label.position.y = y
+	label.size.x = 110
+	label.size.y = 65
+	label.text = init_text
+	label.scale = Vector2(2, 2)

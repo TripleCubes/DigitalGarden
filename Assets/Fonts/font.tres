@@ -3,5 +3,6 @@
 [ext_resource type="FontFile" uid="uid://byvftg40uyx60" path="res://Assets/Fonts/Munro/munro.ttf" id="1_ph4mv"]
 
 [resource]
+RichTextLabel/colors/default_color = Color(1, 0.898039, 0.619608, 1)
 RichTextLabel/font_sizes/normal_font_size = 10
 RichTextLabel/fonts/normal_font = ExtResource("1_ph4mv")

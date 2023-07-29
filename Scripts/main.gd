@@ -41,6 +41,12 @@ func _ready():
 						
 	_add_desktop_icon(AppNames.STATS, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__stats.png"),
 						110, 410, true)
+						
+	_add_desktop_icon(AppNames.STORE, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__store.png"),
+						210, 10, true)
+	
+	_add_desktop_icon(AppNames.TASKS, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__tasks.png"),
+						210, 110, true)
 
 func _process(_delta):
 	GlobalVars.button_press_detected = false
@@ -93,6 +99,7 @@ func _add_desktop_icon(app_name: int, texture: Texture2D,
 		pass
 	, texture)
 	desktop_icon.owned_window = Game_Window.new(app_name)
+	$HiddenWindowList.add_child(desktop_icon.owned_window)
 	$Desktop.add_child(desktop_icon)
 	
 	return desktop_icon

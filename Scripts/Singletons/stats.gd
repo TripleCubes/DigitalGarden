@@ -2,6 +2,7 @@ extends Node
 
 @onready var _window_list: Node2D = get_node("/root/Main/WindowList")
 var max_ram: int = 10
+var tasks_finished: int = 3
 
 func get_current_ram() -> int:
 	var result: int = 1

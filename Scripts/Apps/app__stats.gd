@@ -20,6 +20,12 @@ func draw_app_content() -> void:
 func update(_delta: float) -> void:
 	_text_ram.text = "RAM: " + str(Stats.get_current_ram()) + "/" + str(Stats.max_ram)
 	
+	if _window.scale_transitioning():
+		var window_scale = _window.get_window_scale()
+		_text_ram.scale = Vector2(window_scale, window_scale)
+		_text_ram.position.x = 5 * window_scale
+		_text_ram.position.y = 25/2 * window_scale
+	
 #@onready var _window_list: Node2D = get_node("/root/Main/WindowList")
 #const _texture__: Texture2D = preload("res://Assets/Sprites/Apps/")
 var _font_theme: Theme = preload("res://Assets/Fonts/font.tres")

@@ -354,6 +354,14 @@ func _set_up() -> void:
 		_app = App_Stats.new(self)
 		add_child(_app)
 		
+	elif _app_name == AppNames.STORE:
+		_app = App_Store.new(self)
+		add_child(_app)
+		
+	elif _app_name == AppNames.TASKS:
+		_app = App_Tasks.new(self)
+		add_child(_app)
+		
 func _change_cursor_shape() -> void:
 	if ShowAllWindows._app_opening:
 		return

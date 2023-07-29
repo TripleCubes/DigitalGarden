@@ -9,6 +9,7 @@ func _init(x: float, y: float, pointy_dir: Game_Bubble.PointyDir, scale_ref: Smo
 	
 	_text_box = RichTextLabel.new()
 	_text_box.theme = _font_theme
+	_text_box.add_theme_color_override("default_color", Color(1, 1, 1, 1))
 	_text_box.scroll_active = false
 	_text_box.position.x = x * 2 + 10
 	_text_box.position.y = y * 2 + 5
@@ -49,6 +50,10 @@ func update(_delta):
 	_bubble.update(_delta)
 	
 	if Time.get_ticks_msec() - _text_start_at > TEXT_COOL_DOWN * 1000:
+		_text_box.hide()
+		_bubble.bubble_visible = false
+		
+	if ShowAllWindows._app_opening:
 		_text_box.hide()
 		_bubble.bubble_visible = false
 
