@@ -4,7 +4,7 @@ extends Node2D
 const WINDOW_BORDER_PRESS_DETECTION_WIDTH: float = 4
 const WINDOW_BAR_H: float = 10
 
-func _init(app_name: int, x: float = 0, y: float = 0):
+func _init(app_name: int, x: float = 0, y: float = 0, close_button_disabled: bool = false):
 	_app_name = app_name
 	
 	_set_up()
@@ -28,7 +28,8 @@ func _init(app_name: int, x: float = 0, y: float = 0):
 										8, 8, _scale.get_var(), 
 										Color(0, 0, 0, 0))
 	add_child(_close_button)
-	_close_button.show_button()
+	if not close_button_disabled:
+		_close_button.show_button()
 	
 func smooth_move(x: float, y: float) -> void:
 	_x.set_destination(x)
@@ -122,6 +123,8 @@ func _draw():
 
 	draw_texture(_texture__bar__left, Vector2(0, 0))
 	draw_texture(_texture__bar__right, Vector2(_w - 13, 0))
+	if not _close_button._button_visible:
+		draw_texture_rect(_texture__one_pixel_brown, Rect2(_w - 13, 2, 10, 6), false)
 	draw_texture_rect(_texture__bar__middle, Rect2(3, 0, _w - 3 - 13, 10), false)
 	draw_texture(_texture__window__bottom_left, Vector2(0, _h - 3))
 	draw_texture(_texture__window__bottom_right, Vector2(_w - 3, _h - 3))
@@ -341,6 +344,10 @@ func _set_up() -> void:
 		
 	elif _app_name == AppNames.SHIP:
 		_app = App_Ship.new(self)
+		add_child(_app)
+		
+	elif _app_name == AppNames.CROW:
+		_app = App_Crow.new(self)
 		add_child(_app)
 		
 func _change_cursor_shape() -> void:

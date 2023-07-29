@@ -8,11 +8,12 @@ const GARDEN:			int = 4
 const VALLEY:			int = 5
 const SEED:				int = 6
 const SHIP:				int = 7
+const CROW:				int = 8
 #const STORE:			int = 
 #const STATS:			int = 
 #const TREE:			int = 
 
-const NUMBER_OF_NAMES: 	int = 8
+const NUMBER_OF_NAMES: 	int = 9
 
 var single_window_list: = []
 

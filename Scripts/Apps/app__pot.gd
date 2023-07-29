@@ -3,6 +3,10 @@ extends Node2D
 
 const WATER_REQUEST_TIME: float = 25
 
+var grown: bool = false
+var dead: bool = false
+var has_seed: bool = false
+
 func _init(window: Game_Window):
 	_window = window
 	
@@ -21,7 +25,9 @@ func _init(window: Game_Window):
 	_bubble.icon = _texture__pot__water_drop
 	
 func draw_app_content() -> void:
-	if grown: 
+	if dead:
+		_window.draw_texture(_texture__pot__dead, Vector2(5, 30))
+	elif grown: 
 		_window.draw_texture(_texture__pot__grown_2, Vector2(5, 30))
 	elif has_seed:
 		_window.draw_texture(_texture__pot__grown, Vector2(5, 30))
@@ -29,6 +35,9 @@ func draw_app_content() -> void:
 		_window.draw_texture(_texture__pot, Vector2(5, 30))
 	
 func update(_delta: float) -> void:
+	if dead:
+		return
+		
 	_progress_bar.update(_delta)
 	_bubble.update(_delta)
 	
@@ -44,15 +53,21 @@ func update(_delta: float) -> void:
 		put_water()
 	
 func put_seed() -> void:
+	if dead: 
+		return
+		
 	has_seed = true
 	_progress_bar.progress_bar_visible = true
 	_progress_bar.color = GlobalConsts.COLOR_GREEN
 	_progress_bar.paused = false
-	_progress_bar.fill_time_sec = 60
+	_progress_bar.fill_time_sec = 10
 	
 	_last_watered_at = Time.get_ticks_msec()
 	
 func put_water() -> void:
+	if dead: 
+		return
+		
 	if grown:
 		return
 		
@@ -65,10 +80,9 @@ const _texture__pot: Texture2D = preload("res://Assets/Sprites/Apps/Pot/app__pot
 const _texture__pot__grown: Texture2D = preload("res://Assets/Sprites/Apps/Pot/app__pot__pot__grown.png")
 const _texture__pot__grown_2: Texture2D = preload("res://Assets/Sprites/Apps/Pot/app__pot__pot__grown_2.png")
 const _texture__pot__water_drop: Texture2D = preload("res://Assets/Sprites/Apps/Pot/app__pot__water_drop.png")
+const _texture__pot__dead: Texture2D = preload("res://Assets/Sprites/Apps/Pot/app__pot__pot__dead.png")
 
 var _window: Game_Window
-var has_seed: bool = false
-var grown: bool = false
 var _last_watered_at = 0
 
 var _progress_bar: Game_ProgressBar

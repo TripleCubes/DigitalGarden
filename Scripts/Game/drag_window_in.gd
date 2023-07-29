@@ -50,4 +50,4 @@ func update(_delta: float) -> void:
 var _button: Game_Button
 
 func _accept(window: Game_Window) -> bool:
-	return window.get_app_name() == AppNames.POT# and window.get_app().grown
+	return window.get_app_name() == AppNames.POT and window.get_app().grown

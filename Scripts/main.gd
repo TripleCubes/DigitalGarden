@@ -35,6 +35,9 @@ func _ready():
 						
 	_add_desktop_icon(AppNames.SHIP, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__ship.png"),
 						110, 210, true)
+						
+	_add_desktop_icon(AppNames.CROW, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__ship.png"),
+						110, 310)
 
 func _process(_delta):
 	GlobalVars.button_press_detected = false
@@ -64,6 +67,15 @@ func _process(_delta):
 	
 func _add_desktop_icon(app_name: int, texture: Texture2D, 
 							x: float, y: float, single_window: bool = false) -> Game_DesktopIcon:
+	if app_name == AppNames.CROW:
+		var desktop_icon: = Game_DesktopIcon.new(app_name, x, y, func icon_func():
+			var window: = Game_Window.new(app_name, 100, 100, true)
+			$WindowList.add_child(window)
+		, texture)
+		$Desktop.add_child(desktop_icon)
+		
+		return desktop_icon
+		
 	if not single_window:
 		var desktop_icon: = Game_DesktopIcon.new(app_name, x, y, func icon_func():
 			var window: = Game_Window.new(app_name)
