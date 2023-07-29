@@ -11,12 +11,12 @@ func _init(window: Game_Window):
 	_window._min_h = 70
 	_window._max_h = 200
 	
-	_drag_window_into_list.append(Game_DragWindowIn.new(97, 136, 56/2, 59/2, _accept))
-	_drag_window_into_list.append(Game_DragWindowIn.new(181, 137, 56/2, 59/2, _accept))
-	_drag_window_into_list.append(Game_DragWindowIn.new(256, 137, 56/2, 59/2, _accept))
-	_drag_window_into_list.append(Game_DragWindowIn.new(100, 230, 56/2, 59/2, _accept))
-	_drag_window_into_list.append(Game_DragWindowIn.new(182, 228, 56/2, 59/2, _accept))
-	_drag_window_into_list.append(Game_DragWindowIn.new(261, 229, 56/2, 59/2, _accept))
+	_drag_window_into_list.append(Game_DragWindowIn.new(97, 136, 56/2, 59/2))
+	_drag_window_into_list.append(Game_DragWindowIn.new(181, 137, 56/2, 59/2))
+	_drag_window_into_list.append(Game_DragWindowIn.new(256, 137, 56/2, 59/2))
+	_drag_window_into_list.append(Game_DragWindowIn.new(100, 230, 56/2, 59/2))
+	_drag_window_into_list.append(Game_DragWindowIn.new(182, 228, 56/2, 59/2))
+	_drag_window_into_list.append(Game_DragWindowIn.new(261, 229, 56/2, 59/2))
 	for drag_window_into in _drag_window_into_list:
 		add_child(drag_window_into)
 		
@@ -30,10 +30,16 @@ func draw_app_content() -> void:
 			continue
 			
 		var pos: Vector2 = drag_window_into.get_pos()
-		_window.draw_texture(_texture__pot, Vector2(pos.x / 2 - 13, pos.y / 2 - 45))
+		if _window._w - pos.x / 2 + 13 - 5 > 0 and _window._h - pos.y / 2 + 45 - 5 > 0:
+			_window.draw_texture_rect_region(_texture__pot, 
+				Rect2(pos.x / 2 - 13, pos.y / 2 - 45, min(50, _window._w - pos.x / 2 + 13 - 5), min(65, _window._h - pos.y / 2 + 45 - 5)),
+				Rect2(0, 0, min(50, _window._w - pos.x / 2 + 13 - 5), min(65, _window._h - pos.y / 2 + 45 - 5)))
 	
 func update(_delta: float) -> void:
 	for drag_window_into in _drag_window_into_list:
+		var pos: Vector2 = drag_window_into.get_pos()
+		if _window._w*2 < pos.x + 40 or _window._h*2 < pos.y + 40:
+			continue
 		drag_window_into.update(_delta)
 		
 #@onready var _window_list: Node2D = get_node("/root/Main/WindowList")
@@ -46,6 +52,3 @@ func _min(a: float, b: float) -> float:
 	if a < b: 
 		return a
 	return b
-	
-func _accept(window: Game_Window) -> bool:
-	return window.get_app_name() == AppNames.POT #and window.get_app().grown

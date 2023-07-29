@@ -3,9 +3,7 @@ extends Node2D
 
 var has_window: bool = false
 
-func _init(x: float, y: float, w: float, h: float, accept: Callable):
-	_accept = accept
-	
+func _init(x: float, y: float, w: float, h: float):
 	_button = Game_Button.new(x, y, w, h, GlobalConsts.WINDOW_DEFAULT_SCALE, Color(0, 0, 0, 0))
 	add_child(_button)
 	_button.show_button()
@@ -29,7 +27,7 @@ func update(_delta: float) -> void:
 		if window.is_queued_for_deletion():
 			continue
 			
-		if not _accept.call(window):
+		if not _accept(window):
 			continue
 			
 		if not Input.is_action_just_released("MOUSE_LEFT") or Time.get_ticks_msec() - window.bar_released_at > 100:
@@ -49,4 +47,6 @@ func update(_delta: float) -> void:
 @onready var _window_list: Node2D = get_node("/root/Main/WindowList")
 
 var _button: Game_Button
-var _accept: Callable
+
+func _accept(window: Game_Window) -> bool:
+	return window.get_app_name() == AppNames.POT and window.get_app().grown
