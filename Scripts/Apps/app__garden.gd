@@ -19,6 +19,7 @@ func _init(window: Game_Window):
 	_drag_window_into_list.append(Game_DragWindowIn.new(261, 229, 56/2, 59/2))
 	for drag_window_into in _drag_window_into_list:
 		add_child(drag_window_into)
+		drag_window_into.allow_get_window_out = true
 		
 func draw_app_content() -> void:
 	_window.draw_texture_rect_region(_texture__garden, 

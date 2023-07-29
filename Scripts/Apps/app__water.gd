@@ -20,7 +20,7 @@ func _init(window: Game_Window):
 	add_child(_progress_bar)
 	_progress_bar.color = GlobalConsts.COLOR_BLUE
 	_progress_bar.progress_bar_visible = true
-	_progress_bar.fill_time_sec = 120
+	_progress_bar.fill_time_sec = 60
 	_progress_bar.progress = 1
 	_progress_bar.reverse_fill_time_sec = 10
 	_progress_bar.paused = false

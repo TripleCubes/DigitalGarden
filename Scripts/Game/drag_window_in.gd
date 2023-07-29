@@ -2,6 +2,7 @@ class_name Game_DragWindowIn
 extends Node2D
 
 var has_window: bool = false
+var allow_get_window_out: bool = false
 
 func _init(x: float, y: float, w: float, h: float):
 	_button = Game_Button.new(x, y, w, h, GlobalConsts.WINDOW_DEFAULT_SCALE, Color(0, 0, 0, 0))
@@ -15,7 +16,7 @@ func update(_delta: float) -> void:
 	_button.update(_delta)
 	
 	if has_window:
-		if _button.just_pressed():
+		if allow_get_window_out and _button.just_pressed():
 			var button_pos: = _button.global_position		
 			has_window = false
 			var window: = Game_Window.new(AppNames.POT, button_pos.x, button_pos.y)
@@ -49,4 +50,4 @@ func update(_delta: float) -> void:
 var _button: Game_Button
 
 func _accept(window: Game_Window) -> bool:
-	return window.get_app_name() == AppNames.POT and window.get_app().grown
+	return window.get_app_name() == AppNames.POT# and window.get_app().grown
