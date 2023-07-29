@@ -24,6 +24,7 @@ SmoothVarUpdater="*res://Scripts/Singletons/smooth_var_updater.gd"
 ShowAllWindows="*res://Scripts/Apps/show_all_windows.gd"
 AppNames="*res://Scripts/Apps/app_names.gd"
 GlobalConsts="*res://Scripts/Singletons/global_consts.gd"
+Stats="*res://Scripts/Singletons/stats.gd"
 
 [display]
 

@@ -60,10 +60,12 @@ func update(_delta) -> void:
 	if _button.double_clicked():
 		if AppNames.single_window_list[_app_name]:
 			if owned_window.get_parent() == null:
-				_window_list.add_child(owned_window)
+				if Stats.can_open_window(_app_name):
+					_window_list.add_child(owned_window)
 			elif owned_window.get_parent() == _hidden_window_list:
-				_hidden_window_list.remove_child(owned_window)
-				_window_list.add_child(owned_window)
+				if Stats.can_open_window(_app_name):
+					_hidden_window_list.remove_child(owned_window)
+					_window_list.add_child(owned_window)
 			else:
 				owned_window.place_window_on_top()
 			

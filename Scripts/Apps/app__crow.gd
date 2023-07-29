@@ -80,4 +80,3 @@ func _jump() -> void:
 	var pos = _window.get_pos()
 	pos += inertia * 120
 	_window.smooth_move(pos.x, pos.y)
-	
