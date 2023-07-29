@@ -42,11 +42,8 @@ func _ready():
 	_add_desktop_icon(AppNames.STATS, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__stats.png"),
 						110, 410, true)
 						
-	_add_desktop_icon(AppNames.STORE, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__store.png"),
-						210, 10, true)
-	
 	_add_desktop_icon(AppNames.TASKS, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__tasks.png"),
-						210, 110, true)
+						210, 10, true)
 
 func _process(_delta):
 	GlobalVars.button_press_detected = false

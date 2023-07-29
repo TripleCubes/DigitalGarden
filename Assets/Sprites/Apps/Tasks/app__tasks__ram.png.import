@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dig45aoaarm7x"
-path="res://.godot/imported/app__store__download__ram.png-4b6d722e93b47c9142bb4cd045a38e74.ctex"
+path="res://.godot/imported/app__tasks__ram.png-50ba20a5b89c246babe64279648305e6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/Apps/Store/app__store__download__ram.png"
-dest_files=["res://.godot/imported/app__store__download__ram.png-4b6d722e93b47c9142bb4cd045a38e74.ctex"]
+source_file="res://Assets/Sprites/Apps/Tasks/app__tasks__ram.png"
+dest_files=["res://.godot/imported/app__tasks__ram.png-50ba20a5b89c246babe64279648305e6.ctex"]
 
 [params]
 

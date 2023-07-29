@@ -1,24 +1,27 @@
-class_name StoreDownload
+class_name Game_Task
 extends Node2D
 
-const _texture_download: Texture2D = preload("res://Assets/Sprites/Apps/Store/app__store__download.png")
+const _texture_finished: Texture2D = preload("res://Assets/Sprites/Apps/Tasks/app__tasks__finished.png")
 
 var _icon: Texture2D
 var _y: float = 0
 var _text: String
-var _required_tasks: int = 0
+var _sub_text: String
 var _label: RichTextLabel
 var _label_tasks: RichTextLabel
+var _task_func: Callable
+var _sub_text_func
 
-var _button: Game_Button
 var _scale_ref: SmoothVar
 
-func _init(y: float, icon: Texture2D, text: String, required_tasks: int, scale_ref: SmoothVar):
+func _init(y: float, icon: Texture2D, text: String, sub_text_func: Callable, 
+				scale_ref: SmoothVar, task_func: Callable):
 	_icon = icon
 	_text = text
 	_y = y
-	_required_tasks = required_tasks
+	_sub_text_func = sub_text_func
 	_scale_ref = scale_ref
+	_task_func = task_func
 	
 	_label = RichTextLabel.new()
 	GlobalFunctions.setup_label(_label, 60, y + 10, text)
@@ -28,23 +31,17 @@ func _init(y: float, icon: Texture2D, text: String, required_tasks: int, scale_r
 	GlobalFunctions.setup_label(_label_tasks, 60, y + 35)
 	add_child(_label_tasks)
 	
-	_button = Game_Button.new(190, y + 20, 35, 35, 1, Color(0, 0, 0, 0))
-	add_child(_button)
-	
 func _draw():
 	draw_set_transform(Vector2(0, 0), 0, Vector2(_scale_ref.get_var(), _scale_ref.get_var()))
-	if _required_tasks - Stats.tasks_finished <= 0:
-		draw_texture(_texture_download, Vector2(190/2, _y + 3))
+	if _task_func.call():
+		draw_texture(_texture_finished, Vector2(190/2, _y + 3))
 	draw_texture(_icon, Vector2(5, _y))
 	
 func update(_delta):
-	_button.update(_delta)
-	
-	if _required_tasks - Stats.tasks_finished <= 0:
-		_label_tasks.text = ""
-		_button.show_button()
+	if _task_func.call():
+		_label_tasks.text = "Done"
 	else:
-		_label_tasks.text = str(_required_tasks - Stats.tasks_finished) + " more tasks"
+		_label_tasks.text = _sub_text_func.call()
 	
 	if _scale_ref.transitioning():
 		_label.scale = Vector2(_scale_ref.get_var(), _scale_ref.get_var())

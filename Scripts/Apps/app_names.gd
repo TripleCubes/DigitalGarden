@@ -10,11 +10,10 @@ const SEED:				int = 6
 const SHIP:				int = 7
 const CROW:				int = 8
 const STATS:			int = 9
-const STORE:			int = 10
-const TASKS:			int = 11
+const TASKS:			int = 10
 #const TREE:			int = 
 
-const NUMBER_OF_NAMES: 	int = 12
+const NUMBER_OF_NAMES: 	int = 11
 
 var single_window_list: = []
 var ram_list: = []
@@ -27,7 +26,6 @@ func _ready():
 	single_window_list[GARDEN] = true
 	single_window_list[SHIP] = true
 	single_window_list[STATS] = true
-	single_window_list[STORE] = true
 	single_window_list[TASKS] = true
 	
 	ram_list.resize(NUMBER_OF_NAMES)
@@ -41,5 +39,4 @@ func _ready():
 	ram_list[SHIP] = 3
 	ram_list[CROW] = 1
 	ram_list[STATS] = 1
-	ram_list[STORE] = 1
 	ram_list[TASKS] = 1
