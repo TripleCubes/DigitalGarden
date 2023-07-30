@@ -53,7 +53,7 @@ func _init(window: Game_Window):
 	
 func all_tasks_done() -> bool:
 	for task in _task_list:
-		if not task._task_func():
+		if not task._task_func.call():
 			return false
 	return true
 	
@@ -63,6 +63,9 @@ func draw_app_content() -> void:
 func update(_delta: float) -> void:
 	for task in _task_list:
 		task.update(_delta)
+		
+	if all_tasks_done():
+		GlobalFunctions.all_tasks_done()
 	
 #@onready var _window_list: Node2D = get_node("/root/Main/WindowList")
 #const _texture__: Texture2D = preload("res://Assets/Sprites/Apps/")

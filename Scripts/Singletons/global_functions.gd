@@ -57,3 +57,12 @@ func place_valley_icon_on_top():
 	
 func get_time() -> float:
 	return (Time.get_ticks_msec() - GlobalVars.game_start_at) / 1000
+	
+func all_tasks_done() -> void:
+	if Stats.all_tasks_done:
+		return
+		
+	Stats.all_tasks_done = true
+	get_node("/root/Main/EndScreen").show()
+	get_node("/root/Main/EndScreen/Control/Time").text = "You finished all tasks in: " + str(floor(GlobalFunctions.get_time() / 60)) + "m " \
+												+ str(int(GlobalFunctions.get_time()) % 60) + "s"

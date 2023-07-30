@@ -5,13 +5,13 @@ func _init(window: Game_Window):
 	_window = window
 	
 	_window._w = 120
-	_window._h = 140
+	_window._h = 170
 	_window._min_w = 120
 	_window._max_w = 120
-	_window._min_h = 140
-	_window._max_h = 140
+	_window._min_h = 170
+	_window._max_h = 170
 	
-	for i in 8:
+	for i in 9:
 		_label_list.append(RichTextLabel.new())
 		setup_label(_label_list[_label_list.size() - 1], 10, 25 + (_label_list.size()-1) * 30)
 	
@@ -19,14 +19,16 @@ func draw_app_content() -> void:
 	pass
 	
 func update(_delta: float) -> void:
-	_label_list[0].text = "RAM: " + str(Stats.get_current_ram()) + "/" + str(Stats.max_ram)
-	_label_list[1].text = "Flowers shipped: " + str(Stats.flowers_shipped)
-	_label_list[2].text = "Flowers dead: " + str(Stats.flowers_dead)
-	_label_list[3].text = "Flowers grown: " + str(Stats.flowers_grown)
-	_label_list[4].text = "Watering can filled: " + str(Stats.watering_can_filled)
-	_label_list[5].text = "Seed planted: " + str(Stats.seed_planted)
-	_label_list[6].text = "Window opened: " + str(Stats.window_opened)
-	_label_list[7].text = "Tree watered: " + str(1)
+	_label_list[0].text = "Time passed: " + str(floor(GlobalFunctions.get_time() / 60)) + "m " \
+							+ str(int(GlobalFunctions.get_time()) % 60) + "s"
+	_label_list[1].text = "RAM: " + str(Stats.get_current_ram()) + "/" + str(Stats.max_ram)
+	_label_list[2].text = "Flowers shipped: " + str(Stats.flowers_shipped)
+	_label_list[3].text = "Flowers dead: " + str(Stats.flowers_dead)
+	_label_list[4].text = "Flowers grown: " + str(Stats.flowers_grown)
+	_label_list[5].text = "Watering can filled: " + str(Stats.watering_can_filled)
+	_label_list[6].text = "Seed planted: " + str(Stats.seed_planted)
+	_label_list[7].text = "Window opened: " + str(Stats.window_opened)
+	_label_list[8].text = "Tree watered: " + str(1)
 	
 	if _window.scale_transitioning():
 		var window_scale = _window.get_window_scale()

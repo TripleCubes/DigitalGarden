@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://0jc1jjqj8nlw"]
+[gd_scene load_steps=4 format=3 uid="uid://0jc1jjqj8nlw"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_h5qxm"]
+[ext_resource type="Texture2D" uid="uid://c2xl481yntspc" path="res://Assets/Sprites/EndScreen/end_screen__background.png" id="2_3vens"]
+[ext_resource type="Theme" uid="uid://cer5d5ufdj6sw" path="res://Assets/Fonts/font.tres" id="3_8bfm4"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_h5qxm")
@@ -13,3 +15,53 @@ texture_filter = 1
 
 [node name="HiddenWindowList" type="Node2D" parent="."]
 position = Vector2(2640, 1632)
+
+[node name="EndScreen" type="Node2D" parent="."]
+texture_filter = 1
+
+[node name="EndScreenBackground" type="Sprite2D" parent="EndScreen"]
+position = Vector2(500, 300)
+scale = Vector2(2, 2)
+texture = ExtResource("2_3vens")
+
+[node name="Control" type="Control" parent="EndScreen"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme = ExtResource("3_8bfm4")
+
+[node name="Time" type="RichTextLabel" parent="EndScreen/Control"]
+offset_left = 368.0
+offset_top = 112.0
+offset_right = 632.0
+offset_bottom = 192.0
+theme = ExtResource("3_8bfm4")
+theme_override_font_sizes/normal_font_size = 30
+
+[node name="RichTextLabel" type="RichTextLabel" parent="EndScreen/Control"]
+offset_left = 368.0
+offset_top = 192.0
+offset_right = 616.0
+offset_bottom = 272.0
+theme = ExtResource("3_8bfm4")
+theme_override_font_sizes/normal_font_size = 20
+text = "Share it with your friends and see who have the best score"
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="EndScreen/Control"]
+offset_left = 368.0
+offset_top = 296.0
+offset_right = 640.0
+offset_bottom = 416.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Thanks for playing
+
+Restart the game to play again"
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="EndScreen/Control"]
+offset_left = 368.0
+offset_top = 408.0
+offset_right = 624.0
+offset_bottom = 528.0
+theme_override_font_sizes/normal_font_size = 20
+text = "About and credits: Check README.md in the game's folder"

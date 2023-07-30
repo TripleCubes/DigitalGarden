@@ -15,6 +15,9 @@ class _Spawn:
 		if _spawned:
 			return
 			
+		if ShowAllWindows._app_opening:
+			return
+			
 		if GlobalFunctions.get_time() >= _at:
 			for i in _num:
 				var window: = Game_Window.new(AppNames.CROW, 170 + randf_range(-30, 30), 

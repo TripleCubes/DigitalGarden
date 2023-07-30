@@ -11,6 +11,8 @@ var window_opened: int = 0
 var tree_watered: int = 0
 var tree_grown: bool = false
 
+var all_tasks_done: bool = false
+
 var pot_opened: int = 0
 var water_dispensed: bool = false
 var valley_closed: bool = false

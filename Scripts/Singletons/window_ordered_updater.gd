@@ -5,6 +5,9 @@ extends Node
 @onready var desktop_icon_list = get_node("/root/Main/Desktop")
 
 func _process(delta):
+	if Stats.all_tasks_done:
+		return
+		
 	ShowAllWindows.update(delta)
 	
 	GlobalVars.decided_cursor_shape = GlobalVars.CursorShape.POINTER
