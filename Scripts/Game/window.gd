@@ -142,7 +142,8 @@ func _draw():
 func update(delta: float) -> void:
 	_close_button.update(delta)
 	if _close_button.just_pressed():
-		Stats.valley_closed = true
+		if _app_name == AppNames.VALLEY:
+			Stats.valley_closed = true
 		if AppNames.single_window_list[_app_name]:
 			_window_list.remove_child(self)
 			_hidden_window_list.add_child(self)
@@ -363,6 +364,14 @@ func _set_up() -> void:
 		
 	elif _app_name == AppNames.TREE:
 		_app = App_Tree.new(self)
+		add_child(_app)
+		
+	elif _app_name == AppNames.SNAKE:
+		_app = App_Snake.new(self)
+		add_child(_app)
+		
+	elif _app_name == AppNames.TIC_TAC_TOE:
+		_app = App_TicTacToe.new(self)
 		add_child(_app)
 		
 func _change_cursor_shape() -> void:

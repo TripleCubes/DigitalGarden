@@ -49,6 +49,14 @@ func _ready():
 						
 						
 						
+	_add_desktop_icon(AppNames.SNAKE, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__snake.png"),
+						10 + 50 + 80, 600 - 40 - 10 - 50 * 0, true)
+						
+	_add_desktop_icon(AppNames.TIC_TAC_TOE, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__tic_tac_toe.png"),
+						10 + 50 + 80, 600 - 40 - 10 - 50 * 1, true)
+						
+						
+						
 	_add_desktop_icon(AppNames.CROW, null,
 						-100, 100)
 						
