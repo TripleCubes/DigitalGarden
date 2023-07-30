@@ -1,7 +1,7 @@
 extends Node
 
 @onready var _window_list: Node2D = get_node("/root/Main/WindowList")
-var max_ram: int = 10
+var max_ram: int = 14
 var flowers_shipped: int = 0
 var flowers_dead: int = 0
 var flowers_grown: int = 0

@@ -43,7 +43,7 @@ func update(_delta: float) -> void:
 	
 	if _progress_bar.progress == 1:
 		if not grown:
-			Stats.flower_grown += 1
+			Stats.flowers_grown += 1
 		grown = true
 		_progress_bar.progress_bar_visible = false
 	

@@ -11,9 +11,9 @@ const SHIP:				int = 7
 const CROW:				int = 8
 const STATS:			int = 9
 const TASKS:			int = 10
-#const TREE:			int = 
+const TREE:				int = 11
 
-const NUMBER_OF_NAMES: 	int = 11
+const NUMBER_OF_NAMES: 	int = 12
 
 var single_window_list: = []
 var ram_list: = []
@@ -27,6 +27,7 @@ func _ready():
 	single_window_list[SHIP] = true
 	single_window_list[STATS] = true
 	single_window_list[TASKS] = true
+	single_window_list[TREE] = true
 	
 	ram_list.resize(NUMBER_OF_NAMES)
 	ram_list[NOT_SET] = 0
@@ -40,3 +41,4 @@ func _ready():
 	ram_list[CROW] = 1
 	ram_list[STATS] = 1
 	ram_list[TASKS] = 1
+	ram_list[TREE] = 2

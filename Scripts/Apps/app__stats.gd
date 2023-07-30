@@ -11,29 +11,9 @@ func _init(window: Game_Window):
 	_window._min_h = 140
 	_window._max_h = 140
 	
-	_label_list.append(RichTextLabel.new())
-	setup_label(_label_list[_label_list.size() - 1], 10, 25)
-	
-	_label_list.append(RichTextLabel.new())
-	setup_label(_label_list[_label_list.size() - 1], 10, 25 + (_label_list.size()-1) * 30)
-	
-	_label_list.append(RichTextLabel.new())
-	setup_label(_label_list[_label_list.size() - 1], 10, 25 + (_label_list.size()-1) * 30)
-	
-	_label_list.append(RichTextLabel.new())
-	setup_label(_label_list[_label_list.size() - 1], 10, 25 + (_label_list.size()-1) * 30)
-	
-	_label_list.append(RichTextLabel.new())
-	setup_label(_label_list[_label_list.size() - 1], 10, 25 + (_label_list.size()-1) * 30)
-	
-	_label_list.append(RichTextLabel.new())
-	setup_label(_label_list[_label_list.size() - 1], 10, 25 + (_label_list.size()-1) * 30)
-	
-	_label_list.append(RichTextLabel.new())
-	setup_label(_label_list[_label_list.size() - 1], 10, 25 + (_label_list.size()-1) * 30)
-	
-	_label_list.append(RichTextLabel.new())
-	setup_label(_label_list[_label_list.size() - 1], 10, 25 + (_label_list.size()-1) * 30)
+	for i in 8:
+		_label_list.append(RichTextLabel.new())
+		setup_label(_label_list[_label_list.size() - 1], 10, 25 + (_label_list.size()-1) * 30)
 	
 func draw_app_content() -> void:
 	pass

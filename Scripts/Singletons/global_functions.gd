@@ -1,6 +1,6 @@
 extends Node
 
-@onready var desktop_icon_list = get_node("/root/Main/Desktop")
+@onready var _desktop_icon_list = get_node("/root/Main/Desktop")
 @onready var _window_list: Node2D = get_node("/root/Main/WindowList")
 var _font_theme: Theme = preload("res://Assets/Fonts/font.tres")
 		
@@ -51,3 +51,6 @@ func setup_label(label: RichTextLabel, x: float, y: float, init_text: String = "
 	label.size.y = 65
 	label.text = init_text
 	label.scale = Vector2(2, 2)
+	
+func place_valley_icon_on_top():
+	_desktop_icon_list.move_child(GlobalVars.valley_icon, _desktop_icon_list.get_child_count() - 1)

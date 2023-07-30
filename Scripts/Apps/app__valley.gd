@@ -42,6 +42,7 @@ func update(_delta: float) -> void:
 	_text_bubble.update(_delta)
 	if Input.is_action_just_pressed("KEY_3"):
 		_text_bubble.show_text("This is a test", 100)
+		GlobalFunctions.place_valley_icon_on_top()
 	
 const _texture__valley_o: Texture2D = preload("res://Assets/Sprites/Apps/Valley/app__valley__o.png")
 var _font_theme: Theme = preload("res://Assets/Fonts/font.tres")
