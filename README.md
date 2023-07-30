@@ -1,3 +1,10 @@
+Made in 7 days, for Major Jam 6: Life
+Limitation: Multiple applications
+
+Since this is a jam game the code is pretty bad
+
+Both art and code are done by me
+
 # LICENSE
 Digital garden is under the MIT license. Check [LICENSE](LICENSE) for full information.
 
