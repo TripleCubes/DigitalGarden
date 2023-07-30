@@ -18,11 +18,17 @@ func _init(window: Game_Window):
 	_text_box.position.y = 30
 	_text_box.size.x = 110
 	_text_box.size.y = 65
-	_text_box.text = "This is a test This is a test This is a test This is a test This is a test \
-						This is a test This is a test This is a test This is a test This is a test  \
-						This is a test This is a test This is a test This is a test This is a test "
 	_text_box.scale = Vector2(2, 2)
 	add_child(_text_box)
+	
+func dialogue(text: String, icon: Texture2D) -> void:
+	_text_bubble.hide_text()
+	
+	if _window.get_parent() != _window_list:
+		_text_bubble.show_text(text, 100)
+		GlobalFunctions.place_valley_icon_on_top()
+		
+	_text_box.text = text
 	
 func draw_app_content() -> void:
 	_window.draw_texture(_texture__valley_o, Vector2(5, 15))
@@ -40,10 +46,8 @@ func update(_delta: float) -> void:
 		
 	_text_bubble.set_pos(GlobalVars.valley_icon.get_pos().x / 2 + 25, GlobalVars.valley_icon.get_pos().y / 2)
 	_text_bubble.update(_delta)
-	if Input.is_action_just_pressed("KEY_3"):
-		_text_bubble.show_text("This is a test", 100)
-		GlobalFunctions.place_valley_icon_on_top()
 	
+@onready var _window_list: Node2D = get_node("/root/Main/WindowList")
 const _texture__valley_o: Texture2D = preload("res://Assets/Sprites/Apps/Valley/app__valley__o.png")
 var _font_theme: Theme = preload("res://Assets/Fonts/font.tres")
 var _text_box: RichTextLabel

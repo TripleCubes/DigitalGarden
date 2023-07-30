@@ -19,7 +19,7 @@ func _init(x: float, y: float, pointy_dir: Game_Bubble.PointyDir, scale_ref: Smo
 	_text_box.hide()
 	
 func show_text(text: String, w: float):
-	var text_size: = _font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, w, 10)
+	var text_size: = _font.get_multiline_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, w, 10)
 	if text_size.x < w:
 		w = text_size.x
 	_text_box.text = text
@@ -27,11 +27,16 @@ func show_text(text: String, w: float):
 	_text_box.size.y = text_size.y
 	_bubble._w = w + 10
 	_bubble._h = text_size.y + 5
+	print(text_size)
 	
 	_text_box.show()
 	_bubble.bubble_visible = true
 	
 	_text_start_at = Time.get_ticks_msec()
+	
+func hide_text() -> void:
+	_text_box.hide()
+	_bubble.bubble_visible = false
 	
 func set_pos(x: float, y: float) -> void:
 	_text_box.position.x = x * 2 + 10

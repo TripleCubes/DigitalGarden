@@ -39,6 +39,7 @@ func update(_delta: float) -> void:
 	_progress_bar.update(_delta)
 	
 	if _progress_bar.progress == 1 and _button__get_water.just_pressed():
+		Stats.water_dispensed = true
 		pouring_water = true
 		_progress_bar.reversed = true
 		

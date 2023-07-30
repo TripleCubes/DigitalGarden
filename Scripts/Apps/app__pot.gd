@@ -24,6 +24,8 @@ func _init(window: Game_Window):
 	add_child(_bubble)
 	_bubble.icon = _texture__pot__water_drop
 	
+	Stats.pot_opened += 1
+	
 func draw_app_content() -> void:
 	if dead:
 		_window.draw_texture(_texture__pot__dead, Vector2(5, 30))

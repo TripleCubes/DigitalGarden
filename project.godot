@@ -25,6 +25,8 @@ ShowAllWindows="*res://Scripts/Apps/show_all_windows.gd"
 AppNames="*res://Scripts/Apps/app_names.gd"
 GlobalConsts="*res://Scripts/Singletons/global_consts.gd"
 Stats="*res://Scripts/Singletons/stats.gd"
+ValleyDialogues="*res://Scripts/Singletons/valley_dialogues.gd"
+CrowSpawner="*res://Scripts/Singletons/crow_spawner.gd"
 
 [display]
 

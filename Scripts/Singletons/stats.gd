@@ -11,6 +11,11 @@ var window_opened: int = 0
 var tree_watered: int = 0
 var tree_grown: bool = false
 
+var pot_opened: int = 0
+var water_dispensed: bool = false
+var valley_closed: bool = false
+var ram_maxed: bool = false
+
 func get_current_ram() -> int:
 	var result: int = 1
 	for window in _window_list.get_children():

@@ -1,17 +1,17 @@
 extends Node
 
 const NOT_SET: 			int = 0
-const POT: 				int = 1
-const WATER: 			int = 2
-const WATERING_CAN: 	int = 3
-const GARDEN:			int = 4
-const VALLEY:			int = 5
-const SEED:				int = 6
-const SHIP:				int = 7
-const CROW:				int = 8
-const STATS:			int = 9
-const TASKS:			int = 10
-const TREE:				int = 11
+const VALLEY:			int = 1
+const POT: 				int = 2
+const SEED:				int = 3
+const WATER: 			int = 4
+const WATERING_CAN: 	int = 5
+const TREE:				int = 6
+const STATS:			int = 7
+const TASKS:			int = 8
+const GARDEN:			int = 9
+const SHIP:				int = 10
+const CROW:				int = 11
 
 const NUMBER_OF_NAMES: 	int = 12
 

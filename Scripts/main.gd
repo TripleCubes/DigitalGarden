@@ -51,6 +51,8 @@ func _ready():
 						
 	_add_desktop_icon(AppNames.CROW, null,
 						-100, 100)
+						
+	GlobalVars.game_start_at = Time.get_ticks_msec()
 
 func _process(_delta):
 	GlobalVars.button_press_detected = false
@@ -77,16 +79,28 @@ func _process(_delta):
 	
 	if Input.is_action_just_pressed("KEY_2"):
 		print(get_global_mouse_position())
-	
+		
 func _add_desktop_icon(app_name: int, texture: Texture2D, 
 							x: float, y: float, single_window: bool = false) -> Game_DesktopIcon:
 	if app_name == AppNames.CROW:
 		var desktop_icon: = Game_DesktopIcon.new(app_name, x, y, func icon_func():
-			var window: = Game_Window.new(app_name, 100, 100, true)
+			var window: = Game_Window.new(app_name, 50, 600 - 60 - 50, true)
 			$WindowList.add_child(window)
 			Stats.window_opened += 1
 		, texture)
 		$Desktop.add_child(desktop_icon)
+		
+		return desktop_icon
+		
+	if app_name == AppNames.VALLEY:
+		var desktop_icon: = Game_DesktopIcon.new(app_name, x, y, func icon_func():
+			GlobalVars.valley_opened = true
+		, texture)
+		desktop_icon.owned_window = Game_Window.new(app_name)
+		$HiddenWindowList.add_child(desktop_icon.owned_window)
+		$Desktop.add_child(desktop_icon)
+		
+		GlobalVars.valley_app = desktop_icon.owned_window.get_app()
 		
 		return desktop_icon
 		
@@ -96,6 +110,8 @@ func _add_desktop_icon(app_name: int, texture: Texture2D,
 				var window: = Game_Window.new(app_name)
 				$WindowList.add_child(window)
 				Stats.window_opened += 1
+			else:
+				Stats.ram_maxed = true
 		, texture)
 		$Desktop.add_child(desktop_icon)
 		

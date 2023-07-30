@@ -142,6 +142,7 @@ func _draw():
 func update(delta: float) -> void:
 	_close_button.update(delta)
 	if _close_button.just_pressed():
+		Stats.valley_closed = true
 		if AppNames.single_window_list[_app_name]:
 			_window_list.remove_child(self)
 			_hidden_window_list.add_child(self)

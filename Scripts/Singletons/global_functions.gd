@@ -54,3 +54,6 @@ func setup_label(label: RichTextLabel, x: float, y: float, init_text: String = "
 	
 func place_valley_icon_on_top():
 	_desktop_icon_list.move_child(GlobalVars.valley_icon, _desktop_icon_list.get_child_count() - 1)
+	
+func get_time() -> float:
+	return (Time.get_ticks_msec() - GlobalVars.game_start_at) / 1000
