@@ -25,7 +25,7 @@ func update(_delta: float) -> void:
 		if not ShowAllWindows._app_opening:
 			_jump()
 			
-	if Time.get_ticks_msec() - _created_at > 60 * 1000:
+	if Time.get_ticks_msec() - _created_at > 45 * 1000:
 		_window.queue_free()
 		
 	for window in _window_list.get_children():

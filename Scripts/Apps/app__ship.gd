@@ -17,8 +17,8 @@ func _init(window: Game_Window):
 	_progress_bar = Game_ProgressBar.new(5, 120 - 11, 50, _window._scale)
 	_progress_bar.progress_bar_visible = true
 	_progress_bar.paused = false
-	_progress_bar.fill_time_sec = 10
-	_progress_bar.reverse_fill_time_sec = 30
+	_progress_bar.fill_time_sec = 80
+	_progress_bar.reverse_fill_time_sec = 50
 	add_child(_progress_bar)
 	
 	_drag_window_in = Game_DragWindowIn.new(34, 73, 106/2, 93/2)
@@ -81,6 +81,7 @@ func update(_delta: float) -> void:
 		truck_gone = true
 		Stats.flowers_shipped += num_of_pots
 		num_of_pots = 0
+		_text_box.text = "x " + str(num_of_pots)
 		
 		_text_box_2.show()
 		_text_box.hide()

@@ -29,7 +29,7 @@ func _init(window: Game_Window):
 	
 	_task_list.append(Game_Task.new(15 + 30 * 2, preload("res://Assets/Sprites/Apps/Tasks/app__tasks__grow_big_tree.png"),
 						"Grow tree", func sub_text() -> String:
-		return "Grow tree"
+		return ""
 	, _window._scale, func task() -> bool:
 		return Stats.tree_grown
 	))
@@ -47,12 +47,13 @@ func _init(window: Game_Window):
 						"Finish all tasks", func sub_text() -> String:
 		return ""
 	, _window._scale, func task() -> bool:
-		return Stats.flowers_shipped >= 10
+		return false
 	))
 	add_child(_task_list[4])
 	
 func all_tasks_done() -> bool:
-	for task in _task_list:
+	for i in _task_list.size() - 1:
+		var task: Game_Task = _task_list[i]
 		if not task._task_func.call():
 			return false
 	return true

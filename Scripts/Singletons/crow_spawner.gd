@@ -28,9 +28,11 @@ class _Spawn:
 			_spawned = true
 			
 func _ready():
-	_add_spawn(80, 1)
-	_add_spawn(120, 3)
-	_add_spawn(120 + 50, 4)
+	_add_spawn(60 * 3, 1)
+	_add_spawn(60 * 5, 2)
+	_add_spawn(60 * 7, 2)
+	for i in range(9, 100, 2):
+		_add_spawn(60 * i, 3)
 			
 func _process(_delta):
 	for spawn in _spawn_list:

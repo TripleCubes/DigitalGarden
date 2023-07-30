@@ -64,7 +64,7 @@ func put_seed() -> void:
 	_progress_bar.progress_bar_visible = true
 	_progress_bar.color = GlobalConsts.COLOR_GREEN
 	_progress_bar.paused = false
-	_progress_bar.fill_time_sec = 10
+	_progress_bar.fill_time_sec = 60
 	
 	_last_watered_at = Time.get_ticks_msec()
 	

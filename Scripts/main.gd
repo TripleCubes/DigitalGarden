@@ -88,9 +88,6 @@ func _process(_delta):
 	if Input.is_action_just_pressed("KEY_2"):
 		print(get_global_mouse_position())
 		
-	if GlobalFunctions.get_time() > 4:
-		GlobalFunctions.all_tasks_done()
-		
 func _add_desktop_icon(app_name: int, texture: Texture2D, 
 							x: float, y: float, single_window: bool = false) -> Game_DesktopIcon:
 	if app_name == AppNames.CROW:

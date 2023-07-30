@@ -1,7 +1,7 @@
 class_name App_Tree
 extends Node2D
 
-const WATER_REQUEST_DELAY: float = 8
+const WATER_REQUEST_DELAY: float = 35
 
 #@onready var _window_list: Node2D = get_node("/root/Main/WindowList")
 const _texture__tree_0: Texture2D = preload("res://Assets/Sprites/Apps/Tree/app__tree__0.png")
@@ -32,7 +32,7 @@ func _init(window: Game_Window):
 	
 	_progress_bar = Game_ProgressBar.new(5, 118, 80, _window._scale)
 	_progress_bar.progress_bar_visible = true
-	_progress_bar.fill_time_sec = 10
+	_progress_bar.fill_time_sec = 80
 	_progress_bar.paused = false
 	_progress_bar.color = GlobalConsts.COLOR_GREEN
 	add_child(_progress_bar)
