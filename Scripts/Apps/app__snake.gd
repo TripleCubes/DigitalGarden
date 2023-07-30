@@ -11,6 +11,7 @@ const SNAKE_SPEED: float = 10
 const _texture__dot: Texture2D = preload("res://Assets/Sprites/UI/ui__one_pixel_yellow.png")
 const _texture__dot_yellow: Texture2D = preload("res://Assets/Sprites/UI/ui__one_pixel_yellow_yellow.png")
 const _texture__controls: Texture2D = preload("res://Assets/Sprites/Apps/Snake/app__snake__controls.png")
+const _texture__score: Texture2D = preload("res://Assets/Sprites/Apps/Snake/app__snake__score.png")
 const _font: Font = preload("res://Assets/Fonts/Munro/munro.ttf")
 var _window: Game_Window
 
@@ -75,6 +76,10 @@ func draw_app_content() -> void:
 	_pixel_2(_snake_pos.x, _snake_pos.y)
 	for pixel in _snake:
 		_pixel_2(pixel.x, pixel.y)
+		
+	_window.draw_texture(_texture__score, Vector2(7.5 + 50, 15 + WINDOW_H*2+6.5))
+	_window.draw_string(_font, Vector2(7.5 + 55, 15 + WINDOW_H*2+6.5 + 11), str(_snake.size()),
+							HORIZONTAL_ALIGNMENT_LEFT, 100, 10, GlobalConsts.COLOR_YELLOW)
 	
 func update(_delta: float) -> void:
 	_up_btn.update(_delta)
