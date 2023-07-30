@@ -15,8 +15,10 @@ func _init(app_name: int, x: float = 0, y: float = 0, close_button_disabled: boo
 		init_x = x
 		init_y = y
 	else:
-		init_x = GlobalConsts.WINDOW_WIDTH - _w * GlobalConsts.WINDOW_DEFAULT_SCALE - randf_range(30, 60)
-		init_y = randf_range(30, 60)
+#		init_x = GlobalConsts.WINDOW_WIDTH - _w * GlobalConsts.WINDOW_DEFAULT_SCALE - randf_range(30, 60)
+#		init_y = randf_range(30, 60)
+		init_x = GlobalConsts.WINDOW_WIDTH/2 - _w/2*GlobalConsts.WINDOW_DEFAULT_SCALE + randf_range(-30, 30)
+		init_y = GlobalConsts.WINDOW_HEIGHT/2 - _h/2*GlobalConsts.WINDOW_DEFAULT_SCALE + randf_range(-30, 30)
 	self.position.x = init_x
 	self.position.y = init_y
 	_x.set_var(init_x)

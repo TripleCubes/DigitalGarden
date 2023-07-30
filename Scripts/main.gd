@@ -15,38 +15,42 @@ func _ready():
 	, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__all_apps.png"))
 	$Desktop.add_child(desktop_icon__show_all_windows)
 	
-	_add_desktop_icon(AppNames.POT, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__pot.png"),
-						10, 110)
-						
-	_add_desktop_icon(AppNames.WATER, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__water.png"),
-						10, 210, true)
-						
-	_add_desktop_icon(AppNames.WATERING_CAN, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__watering_can.png"),
-						10, 310)
-						
-	_add_desktop_icon(AppNames.GARDEN, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__garden.png"),
-						10, 410, true)
-						
 	GlobalVars.valley_icon = _add_desktop_icon(AppNames.VALLEY, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__valley.png"),
-						110, 10, true)
+						10 + 50 * 1, 10 + 50 * 0, true)
+						
+	_add_desktop_icon(AppNames.POT, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__pot.png"),
+						10 + 50 * 0, 10 + 50 * 1)
 						
 	_add_desktop_icon(AppNames.SEED, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__seed.png"),
-						110, 110)
+						10 + 50 * 1, 10 + 50 * 1)
+						
+	_add_desktop_icon(AppNames.WATER, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__water.png"),
+						10 + 50 * 0, 10 + 50 * 2, true)
+						
+	_add_desktop_icon(AppNames.WATERING_CAN, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__watering_can.png"),
+						10 + 50 * 1, 10 + 50 * 2)
+						
+						
+						
+	_add_desktop_icon(AppNames.GARDEN, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__garden.png"),
+						10 + 50 * 0, 600 - 40 - 10 - 50 * 0, true)
 						
 	_add_desktop_icon(AppNames.SHIP, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__ship.png"),
-						110, 210, true)
-						
-	_add_desktop_icon(AppNames.CROW, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__ship.png"),
-						110, 310)
+						10 + 50 * 1, 600 - 40 - 10 - 50 * 0, true)
 						
 	_add_desktop_icon(AppNames.STATS, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__stats.png"),
-						110, 410, true)
+						10 + 50 * 0, 600 - 40 - 10 - 50 * 1, true)
 						
 	_add_desktop_icon(AppNames.TASKS, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__tasks.png"),
-						210, 10, true)
+						10 + 50 * 1, 600 - 40 - 10 - 50 * 1, true)
 						
 	_add_desktop_icon(AppNames.TREE, preload("res://Assets/Sprites/DesktopIcons/desktop_icon__tree.png"),
-						210, 110, true)
+						10 + 50 * 0, 600 - 40 - 10 - 50 * 2, true)
+						
+						
+						
+	_add_desktop_icon(AppNames.CROW, null,
+						-100, 100)
 
 func _process(_delta):
 	GlobalVars.button_press_detected = false

@@ -51,6 +51,12 @@ func _init(window: Game_Window):
 	))
 	add_child(_task_list[4])
 	
+func all_tasks_done() -> bool:
+	for task in _task_list:
+		if not task._task_func():
+			return false
+	return true
+	
 func draw_app_content() -> void:
 	pass
 	

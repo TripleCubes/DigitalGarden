@@ -6,7 +6,7 @@ const ICON_WIDTH: float = 20
 func _init(app_name: int, x: float, y: float, icon_function: Callable, texture: Texture2D = null):
 	_app_name = app_name
 	_icon_function = icon_function
-	_button = Game_Button.new(x, y, ICON_WIDTH, ICON_WIDTH, GlobalConsts.ICON_DEFAULT_SCALE, Color(1, 1, 1, 1), texture)
+	_button = Game_Button.new(x, y, ICON_WIDTH, ICON_WIDTH, GlobalConsts.ICON_DEFAULT_SCALE, Color(0, 0, 0, 0), texture)
 	add_child(_button)
 	_button.show_button()
 	
