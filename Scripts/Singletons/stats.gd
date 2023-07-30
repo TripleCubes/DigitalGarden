@@ -16,6 +16,10 @@ var water_dispensed: bool = false
 var valley_closed: bool = false
 var ram_maxed: bool = false
 var crow_appeared: int = 0
+var valley_won: bool = false
+var valley_lose: bool = false
+var valley_draw: bool = false
+var tick_opened: bool = false
 
 func get_current_ram() -> int:
 	var result: int = 1
