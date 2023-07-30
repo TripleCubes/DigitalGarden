@@ -31,10 +31,10 @@ func update(_delta: float) -> void:
 	for i in range(_window_list.get_child_count() - 1, -1, -1):
 		var window: Game_Window = _window_list.get_child(i)
 		
-		if window.get_app_name() != AppNames.POT:
+		if window.get_app_name() != AppNames.POT and window.get_app_name() != AppNames.TREE:
 			continue
 			
-		if window.get_app().grown or not window.get_app().has_seed:
+		if window.get_app_name() == AppNames.POT and (window.get_app().grown or not window.get_app().has_seed):
 			continue
 		
 		if GlobalFunctions.overllap(window, _window):

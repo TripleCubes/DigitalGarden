@@ -28,10 +28,10 @@ func _init(window: Game_Window):
 	add_child(_task_list[1])
 	
 	_task_list.append(Game_Task.new(15 + 30 * 2, preload("res://Assets/Sprites/Apps/Tasks/app__tasks__grow_big_tree.png"),
-						"Grow big tree", func sub_text() -> String:
-		return "Grow big tree"
+						"Grow tree", func sub_text() -> String:
+		return "Grow tree"
 	, _window._scale, func task() -> bool:
-		return Stats.flowers_shipped >= 10
+		return Stats.tree_grown
 	))
 	add_child(_task_list[2])
 	

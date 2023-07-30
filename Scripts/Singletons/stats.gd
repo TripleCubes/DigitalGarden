@@ -9,6 +9,7 @@ var watering_can_filled: int = 0
 var seed_planted: int = 0
 var window_opened: int = 0
 var tree_watered: int = 0
+var tree_grown: bool = false
 
 func get_current_ram() -> int:
 	var result: int = 1
