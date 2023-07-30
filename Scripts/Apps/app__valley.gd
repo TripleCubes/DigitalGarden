@@ -28,10 +28,13 @@ func dialogue(text: String, icon: Texture2D) -> void:
 		_text_bubble.show_text(text, 100)
 		GlobalFunctions.place_valley_icon_on_top()
 		
+	if icon != null:
+		_texture__valley = icon
+		
 	_text_box.text = text
 	
 func draw_app_content() -> void:
-	_window.draw_texture(_texture__valley_o, Vector2(5, 15))
+	_window.draw_texture(_texture__valley, Vector2(5, 15))
 	
 func update(_delta: float) -> void:
 	if _text_bubble == null:
@@ -48,7 +51,7 @@ func update(_delta: float) -> void:
 	_text_bubble.update(_delta)
 	
 @onready var _window_list: Node2D = get_node("/root/Main/WindowList")
-const _texture__valley_o: Texture2D = preload("res://Assets/Sprites/Apps/Valley/app__valley__o.png")
+var _texture__valley: Texture2D = preload("res://Assets/Sprites/Apps/Valley/app__valley__hi.png")
 var _font_theme: Theme = preload("res://Assets/Fonts/font.tres")
 var _text_box: RichTextLabel
 var _window: Game_Window

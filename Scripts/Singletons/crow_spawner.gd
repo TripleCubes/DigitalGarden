@@ -21,6 +21,7 @@ class _Spawn:
 													600 - 60 - 50 + randf_range(-30, 30), true)
 				GlobalVars.window_list.add_child(window)
 				Stats.window_opened += 1
+				Stats.crow_appeared += 1
 			_spawned = true
 			
 func _ready():

@@ -15,6 +15,7 @@ var pot_opened: int = 0
 var water_dispensed: bool = false
 var valley_closed: bool = false
 var ram_maxed: bool = false
+var crow_appeared: int = 0
 
 func get_current_ram() -> int:
 	var result: int = 1
