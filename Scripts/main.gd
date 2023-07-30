@@ -77,6 +77,7 @@ func _add_desktop_icon(app_name: int, texture: Texture2D,
 		var desktop_icon: = Game_DesktopIcon.new(app_name, x, y, func icon_func():
 			var window: = Game_Window.new(app_name, 100, 100, true)
 			$WindowList.add_child(window)
+			Stats.window_opened += 1
 		, texture)
 		$Desktop.add_child(desktop_icon)
 		
@@ -87,6 +88,7 @@ func _add_desktop_icon(app_name: int, texture: Texture2D,
 			if Stats.can_open_window(app_name):
 				var window: = Game_Window.new(app_name)
 				$WindowList.add_child(window)
+				Stats.window_opened += 1
 		, texture)
 		$Desktop.add_child(desktop_icon)
 		

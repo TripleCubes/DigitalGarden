@@ -2,7 +2,13 @@ extends Node
 
 @onready var _window_list: Node2D = get_node("/root/Main/WindowList")
 var max_ram: int = 10
-var flowers_shipped: int = 3
+var flowers_shipped: int = 0
+var flowers_dead: int = 0
+var flowers_grown: int = 0
+var watering_can_filled: int = 0
+var seed_planted: int = 0
+var window_opened: int = 0
+var tree_watered: int = 0
 
 func get_current_ram() -> int:
 	var result: int = 1

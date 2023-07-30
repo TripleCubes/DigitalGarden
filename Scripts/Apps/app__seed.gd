@@ -28,6 +28,7 @@ func update(_delta: float) -> void:
 			continue
 		
 		if GlobalFunctions.overllap(window, _window):
+			Stats.seed_planted += 1
 			window.get_app().put_seed()
 			_window.queue_free()
 			break

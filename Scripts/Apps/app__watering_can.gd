@@ -19,6 +19,8 @@ func draw_app_content() -> void:
 	
 func update(_delta: float) -> void:
 	if GlobalFunctions.has_water_window_on_top(_window):
+		if not filled:
+			Stats.watering_can_filled += 1
 		filled = true
 		
 		

@@ -38,6 +38,7 @@ func update(_delta: float) -> void:
 		if GlobalFunctions.overllap(_window, window):
 			window.get_app().dead = true
 			window.get_app().grown = false
+			Stats.flowers_dead += 1
 	
 @onready var _window_list: Node2D = get_node("/root/Main/WindowList")
 const _texture__crow: Texture2D = preload("res://Assets/Sprites/Apps/Crow/app__crow__crow.png")

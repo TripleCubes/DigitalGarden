@@ -13,9 +13,9 @@ func _init(window: Game_Window):
 	
 	_task_list.append(Game_Task.new(15, preload("res://Assets/Sprites/Apps/Tasks/app__tasks__30_watering_cans.png"),
 						"fill 30 watering cans", func sub_text() -> String:
-		return str(10 - Stats.flowers_shipped) + " more"
+		return str(30 - Stats.watering_can_filled) + " more"
 	, _window._scale, func task() -> bool:
-		return Stats.flowers_shipped >= 10
+		return Stats.watering_can_filled >= 30
 	))
 	add_child(_task_list[0])
 	
@@ -37,9 +37,9 @@ func _init(window: Game_Window):
 	
 	_task_list.append(Game_Task.new(15 + 30 * 3, preload("res://Assets/Sprites/Apps/Tasks/app__tasks__3_dead_flowers.png"),
 						"3 dead flowers", func sub_text() -> String:
-		return ""
+		return str(3 - Stats.flowers_dead) + " more"
 	, _window._scale, func task() -> bool:
-		return Stats.flowers_shipped >= 10
+		return Stats.flowers_dead >= 3
 	))
 	add_child(_task_list[3])
 	
