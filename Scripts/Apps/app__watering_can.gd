@@ -37,7 +37,7 @@ func update(_delta: float) -> void:
 		if window.get_app_name() == AppNames.POT and (window.get_app().grown or not window.get_app().has_seed):
 			continue
 		
-		if GlobalFunctions.overllap(window, _window):
+		if filled and GlobalFunctions.overllap(window, _window):
 			window.get_app().put_water()
 			filled = false
 			break
