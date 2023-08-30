@@ -23,12 +23,12 @@ The license file is located at [_ThirdPartyLicenses/Godot/LICENSE.txt](_ThirdPar
 ### FreeType
 Portions of this software are copyright © 1996-2022 The FreeType Project (www.freetype.org). All rights reserved.
 
-The license file is located at [ThirdPartyLicenses/Godot/ThirdPartyLicenses/FreeType/FTL.TXT](ThirdPartyLicenses/Godot/ThirdPartyLicenses/FreeType/FTL.TXT)
+The license file is located at [_ThirdPartyLicenses/Godot/ThirdPartyLicenses/FreeType/FTL.TXT](_ThirdPartyLicenses/Godot/ThirdPartyLicenses/FreeType/FTL.TXT)
 
 ### ENet
 Copyright (c) 2002-2020 Lee Salzman
 
-The license file is located at [ThirdPartyLicenses/Godot/ThirdPartyLicenses/ENet/LICENSE.md](ThirdPartyLicenses/Godot/ThirdPartyLicenses/ENet/LICENSE.md)
+The license file is located at [_ThirdPartyLicenses/Godot/ThirdPartyLicenses/ENet/LICENSE.md](_ThirdPartyLicenses/Godot/ThirdPartyLicenses/ENet/LICENSE.md)
 
 ### mbed TLS
 Copyright The Mbed TLS Contributors
